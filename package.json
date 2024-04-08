@@ -1,0 +1,30 @@
+{
+  "name": "parcel-project-template",
+  "version": "2.0.0",
+  "description": "Цей проект створено за допомогою Parcel. Для ознайомлення та налаштування \r додаткових можливостей, [зверніться до документації](https://parceljs.org/).",
+  "homepage": "https://roeledeleon.github.io/imdb-movie",
+  "scripts": {
+    "start": "parcel src/*.html",
+    "build": "parcel build src/*.html --public-url /imdb-movie/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roeledeleon/imdb-movie.git"
+  },
+  "keywords": [],
+  "author": "Roel Edeleon <roel.edeleon@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roeledeleon/imdb-movie/issues"
+  },
+  "dependencies": {
+    "modern-normalize": "^1.1.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.6.0",
+    "parcel": "^2.6.0",
+    "parcel-reporter-clean-dist": "^1.0.4",
+    "posthtml-include": "^1.7.4"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead"
+}
