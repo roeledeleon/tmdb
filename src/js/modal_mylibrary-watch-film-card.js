@@ -13,7 +13,7 @@ import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
 import { updateMoviesGalleryByStatus } from './mylibrary_update-details';
 
-// ----- DECLARATION
+// ----- DECLARATIONS
 
 const refs = {
   galleryWatchBox: document.querySelector('.gallery_watch-box'),
@@ -29,7 +29,7 @@ const cache = [];
 refs.galleryWatchBox.addEventListener('click', onGalleryBoxClick);
 refs.filmModal.addEventListener('click', onBackdropModalClick);
 
-// ----- FUNCTIONS
+// ----- FUNCTIONS | onGalleryBoxClick
 
 async function onGalleryBoxClick(event) {
   if (event.target.classList.contains('gallery_fetch-box')) {
@@ -39,8 +39,6 @@ async function onGalleryBoxClick(event) {
   const filmId = Number(event.target.closest('.card').id);
 
   let cachedFilmDetails = cache.find(film => film.id === filmId);
-
-  // ----- DECLARATION | API/CACHE
 
   if (cachedFilmDetails) {
     filmDetails = cachedFilmDetails;
@@ -97,6 +95,8 @@ async function onGalleryBoxClick(event) {
   window.addEventListener('keydown', onEscKeyPress);
 }
 
+// ----- FUNCTIONS
+
 function renderFilmModal(data) {
   const filmModalMarkup = createFilmModalMarkup(data);
   refs.filmModal.insertAdjacentHTML('beforeend', filmModalMarkup);
@@ -133,7 +133,7 @@ function onCloseModal() {
   window.removeEventListener('keydown', onEscKeyPress);
   enableScroll();
 
-  // -----   //---- Update Watch Gallery on Close
+  //---- Update Watch Gallery on Close
   updateMoviesGalleryByStatus('watched', globalCurrentPage);
 }
 

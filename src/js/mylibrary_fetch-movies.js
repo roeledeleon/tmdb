@@ -16,10 +16,24 @@ const refs = {
   filmModal: document.querySelector('[data-modal]'),
 };
 
+// ----- EVENT LISTENERS
+
+uponStart();
 refs.watchedBtn.addEventListener('click', onWatchedBtnClick);
 refs.queueBtn.addEventListener('click', onQueueBtnClick);
 
-// ----- FUNCTIONS
+// ----- FUNCTIONS | uponStart
+function uponStart() {
+  refs.galleryMyLibraryWatch.classList.remove('is-hidden');
+  refs.galleryMyLibraryQueue.classList.add('is-hidden');
+
+  refs.watchedBtn.classList.add('active');
+  refs.queueBtn.classList.remove('active');
+
+  updateMoviesGalleryByStatus('watched');
+}
+
+// ----- FUNCTIONS | onWatchedBtnClick
 
 function onWatchedBtnClick({ target }) {
   refs.galleryMyLibraryWatch.classList.remove('is-hidden');
@@ -33,8 +47,9 @@ function onWatchedBtnClick({ target }) {
   updateMoviesGalleryByStatus(target.dataset.status);
 }
 
+// ----- FUNCTIONS | onQueueBtnClick
+
 function onQueueBtnClick({ target }) {
-  alert('onQueueBtnClick');
   refs.galleryMyLibraryWatch.classList.add('is-hidden');
   refs.galleryMyLibraryQueue.classList.remove('is-hidden');
   if (target.classList.contains('active')) {

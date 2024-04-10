@@ -1,8 +1,8 @@
 // ---------- IMPORTS
 
-import { optionsIMDB } from './api/imdb-api';
-import { paginationSearch } from './pagination-search';
-import { renderSearchMoviesCard } from './render-search-movies-card';
+import { optionsIMDB } from '../../api/imdb-api';
+import { paginationSearch } from '../../pagination-search';
+import { renderSearchMoviesCard } from '../../render-search-movies-card';
 
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-aio.js';
@@ -35,16 +35,13 @@ const optionError = {
   },
 };
 
-// ---------- FUNCTION
+// ---------- FUNCTIONS
 async function onSearchMovies(e) {
-  paginationItemsSearchContainer.classList.remove('is-hidden');
-
   e.preventDefault();
 
+  paginationItemsSearchContainer.classList.remove('is-hidden');
+
   optionsIMDB.specs.query = searchInputEl.value.trim();
-
-  console.log(optionsIMDB.specs.query);
-
   if (optionsIMDB.specs.query === '') {
     return;
   } else if (optionsIMDB.specs.query !== undefined) {
@@ -62,18 +59,16 @@ async function onSearchMovies(e) {
     );
 
     if (res.data.results.length === 0) {
-      Notify.failure(
-        'Search result not successful. Enter the correct movie name.'
-      );
-      searchInputEl.value = '';
-      initializeParam();
+      alert('Search Error');
+
+      // Notify.failure(
+      //   'Search result not successful. Enter the correct movie name.'
+      // );
+      onResultSearchError();
     } else {
       libraryFetchEl.innerHTML = '';
       paginationItemsFetchContainer.innerHTML = '';
       clearGalleryMarkup();
-
-      console.log(`Search Movies`);
-      console.log(res.data.results);
 
       renderSearchMoviesCard(res.data.results);
 
@@ -97,6 +92,7 @@ function initializeParam() {
 }
 
 function onResultSearchError() {
+  searchInputEl.value = '';
   Notiflix.Notify.failure(
     'Search result not successful. Enter the correct movie name.',
     optionError
@@ -105,8 +101,6 @@ function onResultSearchError() {
 }
 
 async function onSearchPaginationClick({ target }) {
-  console.log(`Search Movies | Pagination`);
-
   let searchStatus = 0;
 
   if (
@@ -123,12 +117,6 @@ async function onSearchPaginationClick({ target }) {
     searchStatus = 2;
   }
 
-  console.log(
-    `Search Movies | Pagination | Target ClassList${target.classList}`
-  );
-
-  console.log(`Search Movies | Pagination | Search Status:${searchStatus}`);
-
   if (!searchStatus) {
     if (target.nodeName === 'UL' || target.classList.contains('disabled')) {
       return;
@@ -143,8 +131,6 @@ async function onSearchPaginationClick({ target }) {
       return;
     }
   }
-
-  console.log(`Search Movies | Pagination | Search Status:${searchStatus}`);
 
   switch (searchStatus) {
     case 0:
@@ -174,7 +160,6 @@ async function onSearchPaginationClick({ target }) {
     optionsIMDB.specs.totalPages = res.data.total_pages;
     totalPages = optionsIMDB.specs.totalPages;
 
-    console.log(totalPages);
     paginationSearch(response.data.page, response.data.total_pages);
 
     return res;
@@ -195,4 +180,5 @@ function clearGalleryMarkup() {
 }
 
 // ---------- EVENT LISTENERS
+
 searchFormEl.addEventListener('submit', onSearchMovies);

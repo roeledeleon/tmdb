@@ -1,4 +1,8 @@
+// ----- IMPORTS
+
 import img from '../images/foto.jpg';
+
+// ----- FUNCTIONS | getGenres
 
 function getGenres(genres) {
   const movieGenres = genres.map(genre => genre.name);
@@ -10,6 +14,8 @@ function getGenres(genres) {
   }
   return movieGenres.join(', ');
 }
+
+// ----- FUNCTIONS | markupMovies
 
 export function markupMovies(movies) {
   return movies

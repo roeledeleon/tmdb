@@ -1,13 +1,11 @@
+// ----- IMPORTS
+
 import { findGenresOfMovie } from './find-genre';
 import img from '../images/foto.jpg';
 const libraryFetchEl = document.querySelector('.gallery_fetch-box');
 
-export { renderFetchMoviesCard };
-
+// FUNCTIONS | renderFetchMoviesCard
 function renderFetchMoviesCard(movies) {
-  console.log(`Fetch Movies | Rendering Movie Cards`);
-  console.log(movies);
-
   const markup = movies
     .map(movie => {
       const { poster_path, title, genre_ids, release_date, id } = movie;
@@ -37,3 +35,5 @@ function renderFetchMoviesCard(movies) {
 
   libraryFetchEl.insertAdjacentHTML('beforeend', markup);
 }
+
+export { renderFetchMoviesCard };

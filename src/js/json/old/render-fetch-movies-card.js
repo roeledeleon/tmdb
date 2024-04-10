@@ -1,14 +1,11 @@
-import { findGenresOfMovie } from './find-genre';
+// ----- IMPORTS
+
+import { findGenresOfMovie } from '../../find-genre';
 import img from '../images/foto.jpg';
-const librarySearchEl = document.querySelector('.gallery_search-box');
+const libraryFetchEl = document.querySelector('.gallery_fetch-box');
 
-export { renderSearchMoviesCard };
-
-function renderSearchMoviesCard(movies) {
-  console.log(`Search Movies | Rendering Movie Cards`);
-  console.log(movies);
-
-  librarySearchEl.innerHTML = '';
+// FUNCTIONS | renderFetchMoviesCard
+function renderFetchMoviesCard(movies) {
   const markup = movies
     .map(movie => {
       const { poster_path, title, genre_ids, release_date, id } = movie;
@@ -36,5 +33,7 @@ function renderSearchMoviesCard(movies) {
     })
     .join('');
 
-  librarySearchEl.insertAdjacentHTML('beforeend', markup);
+  libraryFetchEl.insertAdjacentHTML('beforeend', markup);
 }
+
+export { renderFetchMoviesCard };

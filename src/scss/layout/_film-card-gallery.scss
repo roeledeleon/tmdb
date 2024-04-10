@@ -1,5 +1,8 @@
 .gallery {
   padding: 20px 0 40px 0;
+  @media screen and (min-width: $tablet) {
+    padding: 60px 0;
+  }
 }
 .gallery_container {
   margin-right: auto;
@@ -8,6 +11,16 @@
 
   padding: 0 20px;
   width: 320px;
+
+  @media screen and (min-width: $tablet) {
+    width: 768px;
+    margin-bottom: 60px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    width: 1280px;
+    padding: 0 32px;
+  }
 }
 .gallery_box {
   padding: 0;
@@ -23,14 +36,31 @@
   margin-left: 15px;
   width: 100%;
   cursor: pointer;
+  @media screen and (min-width: $tablet) {
+    flex-basis: calc(100% / 2 - 16px);
+  }
+  @media screen and (min-width: $desktop) {
+    flex-basis: calc(100% / 3 - 16px);
+  }
 }
 .card_img {
   width: 280px;
   height: 398px;
   margin-bottom: 10px;
   border-radius: 5px;
-}
 
+  @media screen and (min-width: $tablet) {
+    width: 336px;
+    height: 455px;
+    margin-bottom: 8px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    width: 395px;
+    height: 574px;
+    margin-bottom: 12px;
+  }
+}
 .card_wrap {
   width: 100%;
   //display: flex;
@@ -47,8 +77,12 @@
 
   color: $black;
   text-transform: uppercase;
-}
 
+  @media screen and (min-width: $desktop) {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+}
 .card_text {
   color: $orange;
   text-transform: none;

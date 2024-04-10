@@ -23,6 +23,16 @@
   height: 580px;
   padding: 10px;
 
+  @media screen and (min-width: $tablet) {
+    width: 700px;
+    height: 450px;
+  }
+  @media screen and (min-width: $desktop) {
+    width: 850px;
+    height: 500px;
+    padding: 20px 15px;
+  }
+
   background-color: $modal-bg;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
     0px 2px 1px rgba(0, 0, 0, 0.2);
@@ -35,6 +45,10 @@
   text-align: center;
 
   margin-bottom: 20px;
+
+  @media screen and (min-width: $tablet) {
+    margin-bottom: 30px;
+  }
 }
 
 .group-list {
@@ -44,11 +58,25 @@
 
   row-gap: 10px;
   column-gap: 5px;
+
+  @media screen and (min-width: $tablet) {
+    row-gap: 30px;
+    column-gap: 10px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    row-gap: 20px;
+    column-gap: 10px;
+  }
 }
 
 .group-item {
   text-align: center;
   flex-basis: calc((100% - 10px) / 3);
+
+  @media screen and (min-width: $tablet) {
+    flex-basis: calc((100% - 50px) / 6);
+  }
 
   transition: transform 0.25s;
 
@@ -62,6 +90,15 @@
   margin: 0 auto;
   width: 60px;
   height: 60px;
+
+  @media screen and (min-width: $tablet) {
+    width: 80px;
+    height: 80px;
+  }
+  @media screen and (min-width: $desktop) {
+    width: 100px;
+    height: 100px;
+  }
 
   border-radius: 50%;
 }
@@ -108,6 +145,14 @@
 .partner-position {
   font-size: 10px;
   line-height: 1.33;
+
+  @media screen and (min-width: $tablet) {
+    font-size: 14px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    font-size: 16px;
+  }
 }
 
 .partner-name {
@@ -168,9 +213,27 @@
   align-items: center;
   width: 15px;
   height: 15px;
+
+  @media screen and (min-width: $tablet) {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 .about-partner,
 .social {
   height: 50px;
+
+  @media screen and (min-width: $tablet) {
+    height: 60px;
+  }
+
+  @media screen and (min-width: $desktop) {
+    height: 65px;
+  }
 }

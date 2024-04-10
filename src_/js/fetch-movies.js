@@ -23,8 +23,6 @@ async function fetchMovies() {
     libraryFetchEl.innerHTML = '';
     clearGalleryMarkup();
 
-    console.log(`Fetch Movies`);
-    console.log(res);
     renderFetchMoviesCard(res.data.results);
 
     page = optionsIMDB.specs.page;
@@ -45,8 +43,6 @@ async function fetchMovies() {
 }
 
 async function onFetchPaginationClick({ target }) {
-  console.log(`Fetch Movies | Pagination`);
-
   let fetchStatus = 0;
 
   if (
@@ -63,12 +59,6 @@ async function onFetchPaginationClick({ target }) {
     fetchStatus = 2;
   }
 
-  console.log(
-    `Fetch Movies | Pagination | Target ClassList${target.classList}`
-  );
-
-  console.log(`Fetch Movies | Pagination | Fetch Status:${fetchStatus}`);
-
   if (!fetchStatus) {
     if (target.nodeName === 'UL' || target.classList.contains('disabled')) {
       return;
@@ -83,8 +73,6 @@ async function onFetchPaginationClick({ target }) {
       return;
     }
   }
-
-  console.log(`Fetch Movies | Pagination | Fetch Status:${fetchStatus}`);
 
   switch (fetchStatus) {
     case 0:
@@ -104,8 +92,6 @@ async function onFetchPaginationClick({ target }) {
   let API_KEY = optionsIMDB.specs.key;
   let page = optionsIMDB.specs.page;
 
-  console.log(optionsIMDB.specs);
-
   try {
     const res = await axios.get(
       `${BASE_URL}/3/trending/movie/day?api_key=${API_KEY}&page=${page}`
@@ -113,15 +99,9 @@ async function onFetchPaginationClick({ target }) {
 
     clearGalleryMarkup();
 
-    console.log(`Fetch Movies | Pagination | Fetch res`);
-    console.log(res.data.results);
-
     renderFetchMoviesCard(res.data.results);
     totalPages = optionsIMDB.specs.totalPages;
 
-    console.log(optionsIMDB.specs);
-
-    console.log(totalPages);
     paginationFetch(page, totalPages);
 
     return res;

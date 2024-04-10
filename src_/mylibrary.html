@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FILMOTEKA</title>
+    <!-- icon -->
+    <link
+      rel="icon"
+      href="../src/images/icon/favicon.svg"
+      type="image/svg+xml"
+    />
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- styles 
+    <link rel="stylesheet" href="./css/styles.css" />
+    -->
+    <!-- scss -->
+    <link rel="stylesheet" href="./scss/index.scss" />
+  </head>
+  <body>
+    <!--header-->
+    <include src="./partials/mylibrary-header.html"></include>
+    <main class="main-content">
+      <!--header-->
+      <include src="./partials/mylibrary_hero.html"></include>
+      <include src="./partials/mylibrary_watch-film-card.html"></include>
+      <include src="./partials/mylibrary_queue-film-card.html"></include>
+
+      <include src="./partials/pagination.html"></include>
+
+      <!-- footer -->
+      <include src="./partials/footer.html"></include>
+
+      <!-- modal -->
+      <include src="./partials/modal_film-card.html"></include>
+      <include src="./partials/project-team.html"></include>
+
+      <!-- js -->
+      <script type="module" src="./mylibrary.js"></script>
+    </main>
+  </body>
+</html>
