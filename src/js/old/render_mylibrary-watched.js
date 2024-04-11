@@ -44,21 +44,21 @@ function markupMovies(movies) {
       if (poster_path) {
         return `
       <li class="card" id="${id}">
-        <img class="card__img" src="https://image.tmdb.org/t/p/w400${poster_path}" alt="${title}" />
-        <div class="card__wrap">
-        <p class="card__titel">
+        <img class="card_img" src="https://image.tmdb.org/t/p/w400${poster_path}" alt="${title}" />
+        <div class="card_wrap">
+        <p class="card_titel">
         ${title} <br />
-          <span class="card__text">${getGenres(genres)} | ${date}</span>
-        </p> <p class="cart__rating">${vote_average.toFixed(1)}</p> </div>
+          <span class="card_text">${getGenres(genres)} | ${date}</span>
+        </p> <p class="cart_rating">${vote_average.toFixed(1)}</p> </div>
   </li>`;
       }
       return `
       <div class="card" id="${id}">
-        <img class="card__img" src="${img}" alt="${title}" />
-        <p class="card__titel">
+        <img class="card_img" src="${img}" alt="${title}" />
+        <p class="card_titel">
         ${title} <br />
-          <span class="card__text">${getGenres(genres)} | ${date}</span>
-        </p> <p class="cart__rating">${vote_average.toFixed(1)}</p>
+          <span class="card_text">${getGenres(genres)} | ${date}</span>
+        </p> <p class="cart_rating">${vote_average.toFixed(1)}</p>
   </div>`;
     })
     .join('');

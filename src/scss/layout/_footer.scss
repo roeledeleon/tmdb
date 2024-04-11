@@ -7,10 +7,10 @@
   padding-bottom: 30px;
 
   background-color: $footer-bg;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 768px) {
     height: 79px;
   }
-  @media screen and (min-width: $desktop) {
+  @media screen and (min-width: 1280px) {
     height: 77px;
   }
 }
@@ -26,7 +26,7 @@
   font-size: 14px;
   line-height: 1.14;
   color: $grey-second;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 768px) {
     font-size: 16px;
     line-height: 1.19;
   }
@@ -35,7 +35,7 @@
 .footer-item-container {
   display: flex;
   margin-top: 10px;
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 768px) {
     margin-top: 0;
     margin-left: 3px;
   }

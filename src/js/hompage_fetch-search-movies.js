@@ -1,8 +1,11 @@
 // ----- IMPORTS | Fetch-Search
 
 import { optionsIMDB } from './api/imdb-api';
-import { paginationFetch } from './pagination-fetch';
-import { paginationSearch } from './pagination-search';
+
+import { paginationFetch } from './pagination';
+import { paginationSearch } from './pagination';
+
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-aio.js';
@@ -52,6 +55,9 @@ const optionError = {
 async function fetchMovies() {
   refs.galleryFetchContainer.classList.remove('is-hidden');
   refs.paginationItemsFetchContainer.classList.remove('is-hidden');
+
+  loadLoading();
+
   try {
     const res = await axios.get(
       `${BASE_URL}/3/trending/movie/day?api_key=${API_KEY}&page=${page}`
@@ -72,6 +78,8 @@ async function fetchMovies() {
       onFetchPaginationClick
     );
     paginationFetch(page, totalPages);
+
+    removeLoading();
 
     return res;
   } catch (error) {
@@ -129,6 +137,8 @@ async function onFetchPaginationClick({ target }) {
   let API_KEY = optionsIMDB.specs.key;
   let page = optionsIMDB.specs.page;
 
+  loadLoading();
+
   try {
     const res = await axios.get(
       `${BASE_URL}/3/trending/movie/day?api_key=${API_KEY}&page=${page}`
@@ -140,6 +150,8 @@ async function onFetchPaginationClick({ target }) {
     totalPages = optionsIMDB.specs.totalPages;
 
     paginationFetch(page, totalPages);
+
+    removeLoading();
 
     return res;
   } catch (err) {
@@ -207,6 +219,8 @@ async function onSearchMovies(e) {
     let query = optionsIMDB.specs.query;
     let page = optionsIMDB.specs.page;
 
+    loadLoading();
+
     try {
       const res = await axios.get(
         `${BASE_URL}/3/search/movie?api_key=${API_KEY}&query=${query}&language=en-US&page=${page}&include_adult=false`
@@ -232,6 +246,9 @@ async function onSearchMovies(e) {
         );
         paginationSearch(optionsIMDB.specs.page, optionsIMDB.specs.totalPages);
       }
+
+      removeLoading();
+
       return res;
     } catch (error) {
       Notify.failure(error);
@@ -307,6 +324,8 @@ async function onSearchPaginationClick({ target }) {
   let query = optionsIMDB.specs.query;
   let page = optionsIMDB.specs.page;
 
+  loadLoading();
+
   try {
     const res = await axios.get(
       `${BASE_URL}/3/search/movie?api_key=${API_KEY}&query=${query}&language=en-US&page=${page}&include_adult=false`
@@ -323,6 +342,8 @@ async function onSearchPaginationClick({ target }) {
     console.log('ERROR: ', err.message);
     console.log('ERROR CODE: ', err.code);
   }
+
+  removeLoading();
 
   refs.paginationItemsSearchContainer.addEventListener(
     'click',
@@ -365,6 +386,16 @@ function renderSearchMoviesCard(movies) {
     .join('');
 
   librarySearchEl.insertAdjacentHTML('beforeend', markup);
+}
+
+function loadLoading() {
+  Loading.pulse({
+    svgColor: 'purple',
+  });
+}
+
+function removeLoading() {
+  Loading.remove(100);
 }
 
 // ----- FUNCTION | Run Program

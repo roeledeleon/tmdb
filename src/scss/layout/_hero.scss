@@ -12,7 +12,7 @@
     background-image: url(../images/mobile/background_homepage_mobile-2x.jpg);
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 728px) {
     background-image: url(../images/tablet/background_homepage_tablet.jpg);
 
     @media (min-device-pixel-ratio: 2),
@@ -22,7 +22,7 @@
     }
   }
 
-  @media screen and (min-width: $desktop) {
+  @media screen and (min-width: 1280px) {
     background-image: url(../images/desktop/background_homepage_desktop.jpg);
 
     @media (min-device-pixel-ratio: 2),
@@ -32,7 +32,7 @@
     }
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 728px) {
     height: 216px;
   }
 }
@@ -42,11 +42,11 @@
   margin: 0 auto;
   width: 280px;
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 728px) {
     width: 336px;
   }
 
-  @media screen and (min-width: $desktop) {
+  @media screen and (min-width: 1280px) {
     width: 394px;
   }
 }
@@ -94,7 +94,7 @@
     background-image: url(../images/mobile/background_my-library_mobile-2x.jpg);
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 728px) {
     background-image: url(../images/tablet/background_my-library_tablet.jpg);
 
     @media (min-device-pixel-ratio: 2),
@@ -104,7 +104,7 @@
     }
   }
 
-  @media screen and (min-width: $desktop) {
+  @media screen and (min-width: 1280px) {
     background-image: url(../images/desktop/background_my-library_desktop.jpg);
 
     @media (min-device-pixel-ratio: 2),
@@ -114,7 +114,7 @@
     }
   }
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 728px) {
     height: 216px;
   }
 }
@@ -127,7 +127,7 @@
 .library-item {
   margin-top: 124px;
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 728px) {
     margin-top: 114px;
   }
 }
@@ -135,11 +135,11 @@
 .library-item:not(:last-child) {
   margin-right: 20px;
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 728px) {
     margin-right: 32px;
   }
 
-  @media screen and (min-width: $desktop) {
+  @media screen and (min-width: 1280px) {
     margin-right: 16px;
   }
 }
@@ -158,12 +158,12 @@
   align-items: center;
   text-transform: uppercase;
 
-  @media screen and (min-width: $tablet) {
+  @media screen and (min-width: 728px) {
     min-width: 152px;
     padding: 13px 45px;
   }
 
-  @media screen and (min-width: $desktop) {
+  @media screen and (min-width: 1280px) {
     min-width: 148px;
     padding: 11px 40px;
   }
