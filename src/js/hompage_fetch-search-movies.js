@@ -391,13 +391,13 @@ function renderSearchMoviesCard(movies) {
 }
 
 function loadLoading() {
-  Loading.pulse({
-    svgColor: 'purple',
-  });
+  // Loading.pulse({
+  //   svgColor: 'purple',
+  // });
 }
 
 function removeLoading() {
-  Loading.remove(100);
+  // Loading.remove(100);
 }
 
 // ----- FUNCTION | Run Program
