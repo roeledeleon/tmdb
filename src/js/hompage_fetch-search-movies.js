@@ -75,6 +75,8 @@ async function fetchMovies() {
     optionsIMDB.specs.totalPages = res.data.total_pages;
     totalPages = optionsIMDB.specs.totalPages;
 
+    console.log(totalPages);
+
     refs.paginationItemsFetchContainer.addEventListener(
       'click',
       onFetchPaginationClick
