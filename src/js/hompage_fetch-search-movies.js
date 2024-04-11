@@ -69,8 +69,8 @@ async function fetchMovies() {
     clearGalleryMarkup();
 
     renderFetchMoviesCard(res.data.results);
-
-    let page = optionsIMDB.specs.page;
+    console.log(res.data.results);
+    page = optionsIMDB.specs.page;
 
     optionsIMDB.specs.totalPages = res.data.total_pages;
     let totalPages = optionsIMDB.specs.totalPages;
@@ -152,6 +152,7 @@ async function onFetchPaginationClick({ target }) {
 
     renderFetchMoviesCard(res.data.results);
     let totalPages = optionsIMDB.specs.totalPages;
+    console.log(totalPages);
 
     paginationFetch(page, totalPages);
 
