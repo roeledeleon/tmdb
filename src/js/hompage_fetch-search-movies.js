@@ -144,14 +144,14 @@ async function onFetchPaginationClick({ target }) {
       `${BASE_URL}/3/trending/movie/day?api_key=${API_KEY}&page=${page}`
     );
 
+    removeLoading();
+
     clearGalleryMarkup();
 
     renderFetchMoviesCard(res.data.results);
     totalPages = optionsIMDB.specs.totalPages;
 
     paginationFetch(page, totalPages);
-
-    removeLoading();
 
     return res;
   } catch (err) {
@@ -226,6 +226,8 @@ async function onSearchMovies(e) {
         `${BASE_URL}/3/search/movie?api_key=${API_KEY}&query=${query}&language=en-US&page=${page}&include_adult=false`
       );
 
+      removeLoading();
+
       if (res.data.results.length === 0) {
         Notify.failure('No entries found. Please input again in search form.');
         initializeParam();
@@ -246,8 +248,6 @@ async function onSearchMovies(e) {
         );
         paginationSearch(optionsIMDB.specs.page, optionsIMDB.specs.totalPages);
       }
-
-      removeLoading();
 
       return res;
     } catch (error) {
@@ -331,6 +331,8 @@ async function onSearchPaginationClick({ target }) {
       `${BASE_URL}/3/search/movie?api_key=${API_KEY}&query=${query}&language=en-US&page=${page}&include_adult=false`
     );
 
+    removeLoading();
+
     renderSearchMoviesCard(res.data.results);
     optionsIMDB.specs.totalPages = res.data.total_pages;
     totalPages = optionsIMDB.specs.totalPages;
@@ -342,8 +344,6 @@ async function onSearchPaginationClick({ target }) {
     console.log('ERROR: ', err.message);
     console.log('ERROR CODE: ', err.code);
   }
-
-  removeLoading();
 
   refs.paginationItemsSearchContainer.addEventListener(
     'click',
