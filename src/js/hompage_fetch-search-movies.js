@@ -63,6 +63,8 @@ async function fetchMovies() {
       `${BASE_URL}/3/trending/movie/day?api_key=${API_KEY}&page=${page}`
     );
 
+    removeLoading();
+
     libraryFetchEl.innerHTML = '';
     clearGalleryMarkup();
 
@@ -78,8 +80,6 @@ async function fetchMovies() {
       onFetchPaginationClick
     );
     paginationFetch(page, totalPages);
-
-    removeLoading();
 
     return res;
   } catch (error) {
