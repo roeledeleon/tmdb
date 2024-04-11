@@ -53,12 +53,12 @@ const optionError = {
 // ----- FUNCTIONS | Fetch Movies
 
 async function fetchMovies() {
+  'use strict';
   refs.galleryFetchContainer.classList.remove('is-hidden');
   refs.paginationItemsFetchContainer.classList.remove('is-hidden');
 
-  loadLoading();
-
   try {
+    loadLoading();
     const res = await axios.get(
       `${BASE_URL}/3/trending/movie/day?api_key=${API_KEY}&page=${page}`
     );
@@ -69,14 +69,13 @@ async function fetchMovies() {
     clearGalleryMarkup();
 
     renderFetchMoviesCard(res.data.results);
-    console.log(res.data.results);
+
     page = optionsIMDB.specs.page;
 
     optionsIMDB.specs.totalPages = res.data.total_pages;
     let totalPages = optionsIMDB.specs.totalPages;
 
-    console.log(totalPages);
-
+    removeLoading();
     refs.paginationItemsFetchContainer.addEventListener(
       'click',
       onFetchPaginationClick
@@ -139,22 +138,20 @@ async function onFetchPaginationClick({ target }) {
   let API_KEY = optionsIMDB.specs.key;
   let page = optionsIMDB.specs.page;
 
-  loadLoading();
-
   try {
+    loadLoading();
     const res = await axios.get(
       `${BASE_URL}/3/trending/movie/day?api_key=${API_KEY}&page=${page}`
     );
 
-    removeLoading();
-
     clearGalleryMarkup();
 
     renderFetchMoviesCard(res.data.results);
-    let totalPages = optionsIMDB.specs.totalPages;
-    console.log(totalPages);
+    totalPages = optionsIMDB.specs.totalPages;
 
     paginationFetch(page, totalPages);
+
+    removeLoading();
 
     return res;
   } catch (err) {
@@ -203,6 +200,8 @@ function renderFetchMoviesCard(movies) {
 // ----- FUNCTIONS | Search Movies
 
 async function onSearchMovies(e) {
+  'use strict';
+
   e.preventDefault();
 
   refs.galleryFetchContainer.classList.add('is-hidden');
@@ -222,14 +221,11 @@ async function onSearchMovies(e) {
     let query = optionsIMDB.specs.query;
     let page = optionsIMDB.specs.page;
 
-    loadLoading();
-
     try {
+      loadLoading();
       const res = await axios.get(
         `${BASE_URL}/3/search/movie?api_key=${API_KEY}&query=${query}&language=en-US&page=${page}&include_adult=false`
       );
-
-      removeLoading();
 
       if (res.data.results.length === 0) {
         Notify.failure('No entries found. Please input again in search form.');
@@ -243,7 +239,7 @@ async function onSearchMovies(e) {
         renderSearchMoviesCard(res.data.results);
 
         optionsIMDB.specs.totalPages = res.data.total_pages;
-        let totalPages = optionsIMDB.specs.totalPages;
+        totalPages = optionsIMDB.specs.totalPages;
 
         refs.paginationItemsSearchContainer.addEventListener(
           'click',
@@ -251,6 +247,8 @@ async function onSearchMovies(e) {
         );
         paginationSearch(optionsIMDB.specs.page, optionsIMDB.specs.totalPages);
       }
+
+      removeLoading();
 
       return res;
     } catch (error) {
@@ -328,17 +326,14 @@ async function onSearchPaginationClick({ target }) {
   let page = optionsIMDB.specs.page;
 
   loadLoading();
-
   try {
     const res = await axios.get(
       `${BASE_URL}/3/search/movie?api_key=${API_KEY}&query=${query}&language=en-US&page=${page}&include_adult=false`
     );
 
-    removeLoading();
-
     renderSearchMoviesCard(res.data.results);
     optionsIMDB.specs.totalPages = res.data.total_pages;
-    let totalPages = optionsIMDB.specs.totalPages;
+    totalPages = optionsIMDB.specs.totalPages;
 
     paginationSearch(response.data.page, response.data.total_pages);
 
@@ -347,6 +342,8 @@ async function onSearchPaginationClick({ target }) {
     console.log('ERROR: ', err.message);
     console.log('ERROR CODE: ', err.code);
   }
+
+  removeLoading();
 
   refs.paginationItemsSearchContainer.addEventListener(
     'click',
@@ -392,13 +389,13 @@ function renderSearchMoviesCard(movies) {
 }
 
 function loadLoading() {
-  // Loading.pulse({
-  //   svgColor: 'purple',
-  // });
+  Loading.pulse({
+    svgColor: 'purple',
+  });
 }
 
 function removeLoading() {
-  // Loading.remove(100);
+  Loading.remove(100);
 }
 
 // ----- FUNCTION | Run Program
