@@ -70,10 +70,10 @@ async function fetchMovies() {
 
     renderFetchMoviesCard(res.data.results);
 
-    page = optionsIMDB.specs.page;
+    let page = optionsIMDB.specs.page;
 
     optionsIMDB.specs.totalPages = res.data.total_pages;
-    totalPages = optionsIMDB.specs.totalPages;
+    let totalPages = optionsIMDB.specs.totalPages;
 
     console.log(totalPages);
 
@@ -151,7 +151,7 @@ async function onFetchPaginationClick({ target }) {
     clearGalleryMarkup();
 
     renderFetchMoviesCard(res.data.results);
-    totalPages = optionsIMDB.specs.totalPages;
+    let totalPages = optionsIMDB.specs.totalPages;
 
     paginationFetch(page, totalPages);
 
@@ -242,7 +242,7 @@ async function onSearchMovies(e) {
         renderSearchMoviesCard(res.data.results);
 
         optionsIMDB.specs.totalPages = res.data.total_pages;
-        totalPages = optionsIMDB.specs.totalPages;
+        let totalPages = optionsIMDB.specs.totalPages;
 
         refs.paginationItemsSearchContainer.addEventListener(
           'click',
@@ -337,7 +337,7 @@ async function onSearchPaginationClick({ target }) {
 
     renderSearchMoviesCard(res.data.results);
     optionsIMDB.specs.totalPages = res.data.total_pages;
-    totalPages = optionsIMDB.specs.totalPages;
+    let totalPages = optionsIMDB.specs.totalPages;
 
     paginationSearch(response.data.page, response.data.total_pages);
 
