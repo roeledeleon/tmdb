@@ -53,9 +53,6 @@ export const removeSaveWatch = function (data) {
   watchFilms.push(data);
   uniqFilms = uniqBy(watchFilms, 'id');
 
-  unselectBtnStatus = optionsIMDB.specs.unselectBtn;
-  console.log(uniqFilms);
-
   const copyItems = [];
   for (let i = 0; i < uniqFilms.length; i++) {
     copyItems.push(uniqFilms[i].id);
