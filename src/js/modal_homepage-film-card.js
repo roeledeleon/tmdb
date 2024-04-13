@@ -1,7 +1,7 @@
 // ----- IMPORTS
 
 import { fetchFilmDetailsById } from './modal_fetch-film-card-details';
-import noPosterURL from '../images/foto.jpg';
+import noPosterURL from '../images/desktop/film-image-desktop.jpg';
 import closeBtnIcon from '../images/icon/symbol-defs.svg';
 import {
   dataSaveQueue,
@@ -11,25 +11,29 @@ import {
 } from './modal_add-film-card';
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
-// ----- DECLARATION
-
-const refs = {
-  gallerySearchBox: document.querySelector('.gallery_search-box'),
-  filmModal: document.querySelector('[data-modal]'),
-  body: document.querySelector('body'),
-};
+// ----- DECLARATIONS
 
 let filmDetails = {};
 const cache = [];
 
+const refs = {
+  galleryFetchBox: document.querySelector('.gallery_fetch-box'),
+  filmModal: document.querySelector('[data-modal]'),
+  body: document.querySelector('body'),
+
+  gallerySearchBox: document.querySelector('.gallery_search-box'),
+};
+
 // ----- EVENT LISTENERS
 
-refs.gallerySearchBox.addEventListener('click', onGalleryBoxClick);
+refs.galleryFetchBox.addEventListener('click', onGalleryFetchBoxClick);
 refs.filmModal.addEventListener('click', onBackdropModalClick);
 
-// ----- FUNCTIONS | onGalleryBoxClick
+refs.gallerySearchBox.addEventListener('click', onGallerySearchBoxClick);
 
-async function onGalleryBoxClick(event) {
+// ----- FUNCTIONS | onGallerySearchBoxClick
+
+async function onGallerySearchBoxClick(event) {
   if (event.target.classList.contains('gallery_search-box')) {
     return;
   }
@@ -92,7 +96,71 @@ async function onGalleryBoxClick(event) {
   window.addEventListener('keydown', onEscKeyPress);
 }
 
-// ----- FUNCTIONS
+// ----- FUNCTIONS | onGalleryFetchBoxClick
+
+async function onGalleryFetchBoxClick(event) {
+  if (event.target.classList.contains('gallery_fetch-box')) {
+    return;
+  }
+
+  const filmId = Number(event.target.closest('.card').id);
+
+  let cachedFilmDetails = cache.find(film => film.id === filmId);
+
+  if (cachedFilmDetails) {
+    filmDetails = cachedFilmDetails;
+  } else {
+    try {
+      filmDetails = await fetchFilmDetailsById(filmId);
+    } catch (err) {
+      console.log(err.message);
+      console.log(err.code);
+    }
+
+    cache.push(filmDetails);
+  }
+  clearFilmModalMarkup();
+
+  renderFilmModal(filmDetails);
+
+  const modalButtonsRefs = {
+    closeBtn: document.querySelector('[button-modal-close]'),
+    addQueueBtn: document.querySelector('[button-add-queue]'),
+    addWatchBtn: document.querySelector('[button-add-watch]'),
+    unselectBtn: document.querySelector('[button-unselect]'),
+  };
+
+  enableBtn(modalButtonsRefs.unselectBtn);
+
+  modalButtonsRefs.closeBtn.addEventListener('click', onCloseModal);
+  modalButtonsRefs.addQueueBtn.addEventListener('click', onAddQueueBtn);
+  modalButtonsRefs.addWatchBtn.addEventListener('click', onAddWatchBtn);
+  modalButtonsRefs.unselectBtn.addEventListener('click', onUnselectBtn);
+
+  const watchedMovies = getMovies('watched') || [];
+  const moviesInQueue = getMovies('queue') || [];
+
+  // Check if Movie Watched / Queue
+
+  const isMovieWatched = watchedMovies.some(
+    movie => movie.id === filmDetails.id
+  );
+
+  const isMovieInQueue = moviesInQueue.some(
+    movie => movie.id === filmDetails.id
+  );
+
+  if (isMovieInQueue) {
+    disableBtn(modalButtonsRefs.addQueueBtn);
+  }
+
+  if (isMovieWatched) {
+    disableBtn(modalButtonsRefs.addWatchBtn);
+  }
+
+  onOpenModal();
+  window.addEventListener('keydown', onEscKeyPress);
+}
 
 function renderFilmModal(data) {
   const filmModalMarkup = createFilmModalMarkup(data);
@@ -296,7 +364,7 @@ function createFilmModalMarkup(data) {
       </div>
 
       <ul class="film-button">
-        <li class="film-button_item">
+        <li class="film-button_item" id="button-add-watch">
           <button
             class="film-button_primary"
             type="button"
@@ -305,6 +373,7 @@ function createFilmModalMarkup(data) {
             Add to Watched
           </button>
         </li>
+
         <li class="film-button_item">
           <button class="film-button_primary" type="button" button-add-queue>
             Add to Queue
@@ -312,7 +381,7 @@ function createFilmModalMarkup(data) {
         </li>
         <li class="film-button_item">
           <button class="film-button_primary" type="button" button-unselect>
-            UNSELECT
+            Unselect
           </button>
         </li>
       </ul>

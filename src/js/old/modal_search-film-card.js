@@ -1,6 +1,6 @@
 // ----- IMPORTS
 
-import { fetchFilmDetailsById } from './modal_fetch-film-card-details';
+import { fetchFilmDetailsById } from '../modal_fetch-film-card-details';
 import noPosterURL from '../images/foto.jpg';
 import closeBtnIcon from '../images/icon/symbol-defs.svg';
 import {
@@ -8,15 +8,13 @@ import {
   dataSaveWatch,
   removeSaveWatch,
   removeSaveQueue,
-} from './modal_add-film-card';
+} from '../modal_add-film-card';
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
-
-import { updateMoviesGalleryByStatus } from './mylibrary_update-details';
 
 // ----- DECLARATION
 
 const refs = {
-  galleryQueueBox: document.querySelector('.gallery_queue-box'),
+  gallerySearchBox: document.querySelector('.gallery_search-box'),
   filmModal: document.querySelector('[data-modal]'),
   body: document.querySelector('body'),
 };
@@ -26,13 +24,13 @@ const cache = [];
 
 // ----- EVENT LISTENERS
 
-refs.galleryQueueBox.addEventListener('click', onGalleryBoxClick);
+refs.gallerySearchBox.addEventListener('click', onGalleryBoxClick);
 refs.filmModal.addEventListener('click', onBackdropModalClick);
 
 // ----- FUNCTIONS | onGalleryBoxClick
 
 async function onGalleryBoxClick(event) {
-  if (event.target.classList.contains('gallery_queue-box')) {
+  if (event.target.classList.contains('gallery_search-box')) {
     return;
   }
 
@@ -70,15 +68,14 @@ async function onGalleryBoxClick(event) {
   modalButtonsRefs.addWatchBtn.addEventListener('click', onAddWatchBtn);
   modalButtonsRefs.unselectBtn.addEventListener('click', onUnselectBtn);
 
+  // Check if Movie Watched / Queue
+
   const watchedMovies = getMovies('watched') || [];
   const moviesInQueue = getMovies('queue') || [];
-
-  // Check if Movie Watched / Queue
 
   const isMovieWatched = watchedMovies.some(
     movie => movie.id === filmDetails.id
   );
-
   const isMovieInQueue = moviesInQueue.some(
     movie => movie.id === filmDetails.id
   );
@@ -132,9 +129,6 @@ function onCloseModal() {
   refs.filmModal.classList.add('is-hidden');
   window.removeEventListener('keydown', onEscKeyPress);
   enableScroll();
-
-  //---- Update Queue Gallery on Close
-  updateMoviesGalleryByStatus('queue', globalCurrentPage);
 }
 
 function onEscKeyPress(e) {
@@ -143,7 +137,7 @@ function onEscKeyPress(e) {
   }
 }
 
-function onUnselectBtn() {
+function onUnselectBtn({ target }) {
   const watchedMovies = getMovies('watched') || [];
   const moviesInQueue = getMovies('queue') || [];
 
@@ -163,6 +157,7 @@ function onUnselectBtn() {
     removeSaveWatch(filmDetails);
   }
 
+  //disableBtn(target);
   enableBtn(document.querySelector('[button-add-watch]'));
   enableBtn(document.querySelector('[button-add-queue]'));
 }
@@ -176,9 +171,6 @@ function onAddQueueBtn({ target }) {
       updateMoviesGalleryByStatus('queue', globalCurrentPage);
     }
   }
-
-  updateMoviesGalleryByStatus('queue');
-
   disableBtn(target);
   enableBtn(document.querySelector('[button-add-watch]'));
   enableBtn(document.querySelector('[button-unselect]'));
@@ -193,9 +185,6 @@ function onAddWatchBtn({ target }) {
       updateMoviesGalleryByStatus('queue', globalCurrentPage);
     }
   }
-
-  updateMoviesGalleryByStatus('watch');
-
   disableBtn(target);
   enableBtn(document.querySelector('[button-add-queue]'));
   enableBtn(document.querySelector('[button-unselect]'));
@@ -307,7 +296,7 @@ function createFilmModalMarkup(data) {
       </div>
 
       <ul class="film-button">
-        <li class="film-button_item" id="button-add-watch">
+        <li class="film-button_item">
           <button
             class="film-button_primary"
             type="button"
@@ -316,7 +305,6 @@ function createFilmModalMarkup(data) {
             Add to Watched
           </button>
         </li>
-
         <li class="film-button_item">
           <button class="film-button_primary" type="button" button-add-queue>
             Add to Queue
@@ -324,7 +312,7 @@ function createFilmModalMarkup(data) {
         </li>
         <li class="film-button_item">
           <button class="film-button_primary" type="button" button-unselect>
-            Unselect
+            UNSELECT
           </button>
         </li>
       </ul>
