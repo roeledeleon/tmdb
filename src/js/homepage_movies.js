@@ -22,8 +22,8 @@ let page = 1;
 // ----- DECLARATIONS | Search
 
 const refs = {
-  galleryFetchContainer: document.querySelector('.gallery_fetch-container'),
-  gallerySearchContainer: document.querySelector('.gallery_search-container'),
+  galleryFetchContainer: document.querySelector('.gallery_fetch-section'),
+  gallerySearchContainer: document.querySelector('.gallery_search-section'),
   paginationItemsFetchContainer: document.querySelector(
     '.pagination-fetch_container'
   ),
