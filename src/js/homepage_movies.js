@@ -150,6 +150,8 @@ async function onFetchPaginationClick({ target }) {
 
     paginationFetch(page, totalPages);
 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     return res;
   } catch (err) {
     console.log('ERROR: ', err.message);
@@ -329,6 +331,8 @@ async function onSearchPaginationClick({ target }) {
     let totalPages = optionsIMDB.specs.totalPages;
 
     paginationSearch(globalCurrentPage, totalPages);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     return res;
   } catch (err) {

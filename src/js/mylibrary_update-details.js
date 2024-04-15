@@ -164,6 +164,8 @@ function onWatchedPaginationItemClick({ target }) {
 
   renderMyLibraryWatched(splittedMovieSet.get(currentPage));
   paginationMyLibrary(currentPage, totalPages);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ----- PAGINATION | QUEUE
@@ -221,4 +223,6 @@ function onQueuePaginationItemClick({ target }) {
 
   renderMyLibraryQueue(splittedMovieSet.get(currentPage));
   paginationMyLibrary(currentPage, totalPages);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
