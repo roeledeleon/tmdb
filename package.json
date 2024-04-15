@@ -1,21 +1,21 @@
 {
-  "name": "parcel-project-template",
+  "name": "tmdb-filmoteka",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://roeledeleon.github.io/imdb",
+  "homepage": "https://roeledeleon.github.io/tmdb",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /imdb/"
+    "build": "parcel build src/*.html --public-url /tmdb/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/roeledeleon/imdb.git"
+    "url": "git+https://github.com/roeledeleon/tmdb.git"
   },
   "keywords": [],
   "author": "Roel Edeleon <roel.edeleon@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/roeledeleon/imdb/issues"
+    "url": "https://github.com/roeledeleon/tmdb/issues"
   },
   "dependencies": {
     "aos": "^3.0.0-beta.6",
