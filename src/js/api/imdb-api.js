@@ -1,4 +1,4 @@
-export const IMDB_API_KEY = `15150ce69b4b8fc4394b6dfaa88a912b`;
+export const IMDB_API_KEY = `f4377cb887a6a7423eb708950289f0d1`;
 export const IMDB_URL = `https://api.themoviedb.org`;
 
 export const optionsIMDB = {
