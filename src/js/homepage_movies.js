@@ -146,7 +146,7 @@ async function onFetchPaginationClick({ target }) {
     clearGalleryMarkup();
 
     renderFetchMoviesCard(res.data.results);
-    totalPages = optionsIMDB.specs.totalPages;
+    let totalPages = optionsIMDB.specs.totalPages;
 
     paginationFetch(page, totalPages);
 
