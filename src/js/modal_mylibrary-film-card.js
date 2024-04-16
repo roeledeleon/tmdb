@@ -204,6 +204,7 @@ function onCloseModal() {
 
   //---- Update Watch Gallery on Close
   updateMoviesGalleryByStatus('watched', globalCurrentPage);
+  updateMoviesGalleryByStatus('queue', globalCurrentPage);
 }
 
 function onEscKeyPress(e) {
@@ -246,7 +247,7 @@ function onAddQueueBtn({ target }) {
     }
   }
 
-  updateMoviesGalleryByStatus('watch');
+  //updateMoviesGalleryByStatus('watched');
 
   disableBtn(target);
   enableBtn(document.querySelector('[button-add-watch]'));
@@ -263,7 +264,7 @@ function onAddWatchBtn({ target }) {
     }
   }
 
-  updateMoviesGalleryByStatus('watch');
+  //updateMoviesGalleryByStatus('watch');
 
   disableBtn(target);
   enableBtn(document.querySelector('[button-add-queue]'));

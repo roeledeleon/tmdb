@@ -1,6 +1,5 @@
 // ----- IMPORTS
 
-//import { markupMovies } from './render_mylibrary-film-card';
 import img from '../images/desktop/film-image-desktop.jpg';
 
 // ----- DECLARATIONS
