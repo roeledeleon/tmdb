@@ -9,7 +9,7 @@ import { getDatabase, ref, set } from 'firebase/database';
 
 const app = initializeApp(firebaseConfig);
 
-signupBtnEl = document.querySelector('.signupbtn');
+const signupBtnEl = document.querySelector('.signupbtn');
 
 const form = document.querySelector('.modal-content-signup');
 
