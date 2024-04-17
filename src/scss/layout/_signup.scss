@@ -1,6 +1,8 @@
 /* Full-width input fields */
-.signup_uname,
-.signup_pword {
+.signup_fname,
+.signup_email,
+.signup_pword,
+.signup_pword-repeat {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -10,8 +12,10 @@
 }
 
 /* Add a background color when the inputs get focus */
-.signup_uname:focus,
-.signup_pword:focus {
+.signup_fname:focus,
+.signup_email:focus,
+.signup_pword:focus,
+.signup_pword-repeat:focus {
   background-color: #ddd;
   outline: none;
 }

@@ -12,32 +12,44 @@
       <h1>Sign Up</h1>
       <p><br />Please fill in this form to create an account.</p>
       <hr />
-      <label for="email"><b>Email</b></label>
+      <label for="signup_fname"><b>Full Name</b></label>
       <input
-        class="signup_uname"
+        class="signup_fname"
         type="text"
+        placeholder="Enter Full Name"
+        id="signup_fname"
+        name="signup_fname"
+        required
+      />
+      <label for="signup_email"><b>Email</b></label>
+      <input
+        class="signup_email"
+        type="email"
         placeholder="Enter Email"
-        name="email"
+        id="signup_email"
+        name="signup_email"
         required
       />
 
-      <label for="psw"><b>Password</b></label>
+      <label for="signup_pword"><b>Password</b></label>
       <input
         class="signup_pword"
         type="password"
         placeholder="Enter Password"
-        name="psw"
+        id="signup_pword"
+        name="signup_pword"
         required
       />
-
-      <label for="psw-repeat"><b>Repeat Password</b></label>
+      <!-- 
+      <label for="signup_pword-repeat"><b>Repeat Password</b></label>
       <input
-        class="signup_pword"
+        class="signup_pword-repeat"
         type="password"
         placeholder="Repeat Password"
-        name="psw-repeat"
+        id="signup_pword-repeat"
+        name="signup_pword-repeat"
         required
-      />
+      /> -->
 
       <label>
         <input

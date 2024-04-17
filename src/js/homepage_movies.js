@@ -13,18 +13,6 @@ import { Notify } from 'notiflix/build/notiflix-aio.js';
 import { findGenresOfMovie } from './find-genre';
 import img from '../images/desktop/film-image-desktop.jpg';
 
-import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
-import firebase from 'firebase/compat/app';
-
-// ----- DECLARATIONS | Firebase
-
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-
-// const auth = firebase.auth();
-// const database = firebase.database();
-
 // ----- DECLARATIONS | Fetch
 
 let BASE_URL = optionsIMDB.specs.baseURL;
