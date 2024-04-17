@@ -1,11 +1,18 @@
 // ----- IMPORTS
 
+import { optionsIMDB } from './api/imdb-api';
+
 import { paginationMyLibrary } from './pagination';
 import { renderMyLibraryWatched } from './render_mylibrary';
 import { renderMyLibraryQueue } from './render_mylibrary';
-import { readLocalStorageData, deserializeData } from './api/local-storage-API';
+import {
+  readLocalStorageData,
+  createLocalStorageData,
+  deserializeData,
+} from './api/local-storage-API';
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
+import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 
 // ----- DECLARATIONS
 
@@ -24,6 +31,7 @@ let totalMovies = 0;
 // ----- FUNCTIONS | updateMoviesGalleryByStatus
 
 export function updateMoviesGalleryByStatus(status, pageNumber) {
+  'use strict';
   paginationMyLibraryContainer.classList.remove('is-hidden');
 
   const data = readLocalStorageData(status);
@@ -70,6 +78,25 @@ export function updateMoviesGalleryByStatus(status, pageNumber) {
       paginationMyLibrary(currentPage, totalPages);
     }
     removeLoading();
+
+    // Check if Log-In
+    const emailBoxEl = document.querySelector('.navlist-email');
+    const emailEl = document.querySelector('.navlist-email-btn');
+
+    if (readLocalStorageData('login') == null) {
+      optionsIMDB.specs.login = 0;
+    } else {
+      optionsIMDB.specs.login = readLocalStorageData('login');
+    }
+
+    let login = optionsIMDB.specs.login;
+
+    if (login == 0) {
+      emailBoxEl.classList.add('is-hidden');
+    } else {
+      emailBoxEl.classList.remove('is-hidden');
+      emailEl.innerHTML = readLocalStorageData('email');
+    }
   }
 
   paginationMyLibraryContainer.removeEventListener(

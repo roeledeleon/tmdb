@@ -72,7 +72,9 @@ async function fetchMovies() {
   const loginEl = document.querySelector('.navlist-login');
   const signupEl = document.querySelector('.navlist-signup');
   const logoutEL = document.querySelector('.navlist-logout');
-  const emailEL = document.querySelector('.navlist-email');
+
+  const emailBoxEl = document.querySelector('.navlist-email');
+  const emailEl = document.querySelector('.navlist-email-btn');
 
   if (readLocalStorageData('login') == null) {
     optionsIMDB.specs.login = 0;
@@ -81,19 +83,21 @@ async function fetchMovies() {
   }
 
   let login = optionsIMDB.specs.login;
-  console.log(`Login: ${login}`);
+
   if (login == 0) {
     myLibraryPageEl.classList.add('is-hidden');
     loginEl.classList.remove('is-hidden');
     signupEl.classList.remove('is-hidden');
     logoutEL.classList.add('is-hidden');
-    emailEL.classList.add('is-hidden');
+    emailBoxEl.classList.add('is-hidden');
   } else {
     myLibraryPageEl.classList.remove('is-hidden');
     loginEl.classList.add('is-hidden');
     signupEl.classList.add('is-hidden');
     logoutEL.classList.remove('is-hidden');
-    emailEL.classList.remove('is-hidden');
+    emailBoxEl.classList.remove('is-hidden');
+
+    emailEl.innerHTML = readLocalStorageData('email');
   }
 
   const logoutBtn = document.querySelector('.navlist-logout');
@@ -154,7 +158,7 @@ async function fetchMovies() {
         const loginEl = document.querySelector('.navlist-login');
         const signupEl = document.querySelector('.navlist-signup');
         const logoutEL = document.querySelector('.navlist-logout');
-        const emailEL = document.querySelector('.navlist-email');
+        const emailEl = document.querySelector('.navlist-email');
 
         if (readLocalStorageData('login') == null) {
           optionsIMDB.specs.login = 0;
@@ -163,19 +167,19 @@ async function fetchMovies() {
         }
 
         let login = optionsIMDB.specs.login;
-        console.log(`Login: ${login}`);
+
         if (login == 0) {
           myLibraryPageEl.classList.add('is-hidden');
           loginEl.classList.remove('is-hidden');
           signupEl.classList.remove('is-hidden');
           logoutEL.classList.add('is-hidden');
-          emailEL.classList.add('is-hidden');
+          emailEl.classList.add('is-hidden');
         } else {
           myLibraryPageEl.classList.remove('is-hidden');
           loginEl.classList.add('is-hidden');
           signupEl.classList.add('is-hidden');
           logoutEL.classList.remove('is-hidden');
-          emailEL.classList.remove('is-hidden');
+          emailEl.classList.remove('is-hidden');
         }
       },
       () => {},

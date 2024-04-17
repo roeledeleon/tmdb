@@ -8,8 +8,8 @@
 .header-container {
   margin-right: auto;
   margin-left: auto;
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
 
   @media screen and (min-width: 320px) and (max-width: 767px) {
     width: 320px;
@@ -60,9 +60,13 @@
 .nav-list-item {
   position: relative;
   &:not(:last-child) {
-    margin-right: 40px;
+    @media screen and (min-width: 768px) {
+      margin-right: 40px;
+    }
+    @media screen and (max-width: 767px) {
+      margin-right: 20px;
+    }
   }
-
   .current::after {
     content: '';
     position: absolute;
@@ -81,6 +85,13 @@
   font-size: 12px;
   line-height: 1.16;
   text-transform: uppercase;
+
+  // @media screen and (min-width: 768px) {
+  //   font-size: 12px;
+  // }
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+  }
 
   &:hover,
   &:focus {

@@ -13,6 +13,9 @@ signupBtnEl = document.querySelector('.signupbtn');
 
 const form = document.querySelector('.modal-content-signup');
 
+let queueFilms = [];
+let watchFilms = [];
+
 // ----- EVENT LISTENERS
 
 form.addEventListener('submit', e => {
@@ -54,6 +57,8 @@ function onRegister() {
       var user_data = {
         fullname: fullname,
         email: email,
+        queueFilms: queueFilms,
+        watchFilms: watchFilms,
         last_login: Date.now(),
       };
 

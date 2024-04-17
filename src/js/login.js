@@ -7,7 +7,7 @@ import { createLocalStorageData } from './api/local-storage-API';
 import { firebaseConfig } from './api/firebase-api';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getDatabase, ref, set } from 'firebase/database';
+import { getDatabase, ref, update, set } from 'firebase/database';
 
 // ----- DECLARATIONS | Firebase
 
@@ -26,7 +26,6 @@ let login = optionsIMDB.specs.login;
 
 form.addEventListener('submit', e => {
   e.preventDefault();
-
   onLogin();
 });
 
@@ -50,6 +49,14 @@ function onLogin() {
       const user = userCredential.user;
 
       alert('User Log In');
+
+      //Add this user to Firebase Database
+      var user_data = {
+        last_login: Date.now(),
+      };
+
+      const db = getDatabase();
+      update(ref(db, 'users/' + user.uid), user_data);
 
       optionsIMDB.specs.uid = user.uid;
       optionsIMDB.specs.email = user.email;
