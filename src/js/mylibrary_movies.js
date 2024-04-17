@@ -2,6 +2,11 @@
 
 import { updateMoviesGalleryByStatus } from './mylibrary_update-details';
 
+import {
+  readLocalStorageData,
+  createLocalStorageData,
+} from './api/local-storage-API';
+
 // ---- DECLARATIONS
 
 const refs = {

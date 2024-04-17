@@ -11,8 +11,35 @@
         <li class="nav-list-item">
           <a href="./index.html" class="nav-list-link current">Home</a>
         </li>
-        <li class="nav-list-item">
+        <li class="nav-list-item navlist-library is-hidden">
           <a href="./mylibrary.html" class="nav-list-link">my library</a>
+        </li>
+        <li class="nav-list-item navlist-login">
+          <!-- <a href="./index.html" class="nav-list-link navlist-login">Log-in</a> -->
+          <button
+            class="nav-list-link"
+            onclick="document.getElementById('id01').style.display='block'"
+            style="width: auto"
+          >
+            Login
+          </button>
+        </li>
+        <li class="nav-list-item navlist-signup">
+          <!-- <a href="./index.html" class="nav-list-link navlist-signup"
+            >Sign-up</a
+          > -->
+          <button
+            class="nav-list-link"
+            onclick="document.getElementById('id02').style.display='block'"
+          >
+            Sign Up
+          </button>
+        </li>
+        <li class="nav-list-item navlist-logout is-hidden">
+          <button class="nav-list-link">Log Out</button>
+        </li>
+        <li class="nav-list-item navlist-email is-hidden">
+          <button class="nav-list-link navlist-email-btn">Email</button>
         </li>
       </ul>
     </nav>
