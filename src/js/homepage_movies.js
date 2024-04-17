@@ -6,6 +6,7 @@ import { paginationFetch } from './pagination';
 import { paginationSearch } from './pagination';
 
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
+import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-aio.js';
@@ -13,12 +14,17 @@ import { Notify } from 'notiflix/build/notiflix-aio.js';
 import { findGenresOfMovie } from './find-genre';
 import img from '../images/desktop/film-image-desktop.jpg';
 
+import {
+  readLocalStorageData,
+  createLocalStorageData,
+} from './api/local-storage-API';
+
 // ----- DECLARATIONS | Fetch
 
 let BASE_URL = optionsIMDB.specs.baseURL;
 let API_KEY = optionsIMDB.specs.key;
 let page = 1;
-let login = optionsIMDB.specs.login;
+//let login = readLocalStorageData(login);
 
 // ----- DECLARATIONS | Search
 
@@ -60,11 +66,38 @@ async function fetchMovies() {
   refs.galleryFetchContainer.classList.remove('is-hidden');
   refs.paginationItemsFetchContainer.classList.remove('is-hidden');
 
-  if (login === 0) {
+  // Check if Log-In
+
+  const myLibraryPageEl = document.querySelector('.navlist-library');
+  const loginEl = document.querySelector('.navlist-login');
+  const signupEl = document.querySelector('.navlist-signup');
+  const logoutEL = document.querySelector('.navlist-logout');
+  const emailEL = document.querySelector('.navlist-email');
+
+  if (readLocalStorageData('login') == null) {
+    optionsIMDB.specs.login = 0;
+  } else {
+    optionsIMDB.specs.login = readLocalStorageData('login');
+  }
+
+  let login = optionsIMDB.specs.login;
+  console.log(`Login: ${login}`);
+  if (login == 0) {
     myLibraryPageEl.classList.add('is-hidden');
+    loginEl.classList.remove('is-hidden');
+    signupEl.classList.remove('is-hidden');
+    logoutEL.classList.add('is-hidden');
+    emailEL.classList.add('is-hidden');
   } else {
     myLibraryPageEl.classList.remove('is-hidden');
+    loginEl.classList.add('is-hidden');
+    signupEl.classList.add('is-hidden');
+    logoutEL.classList.remove('is-hidden');
+    emailEL.classList.remove('is-hidden');
   }
+
+  const logoutBtn = document.querySelector('.navlist-logout');
+  logoutBtn.addEventListener('click', onLogoutBtnClick);
 
   try {
     loadLoading();
@@ -92,6 +125,62 @@ async function fetchMovies() {
     return res;
   } catch (error) {
     console.log(error);
+  }
+
+  function onLogoutBtnClick() {
+    Confirm.show(
+      'Log-Out Filmoteka',
+      '',
+      'Yes',
+      'No',
+      () => {
+        optionsIMDB.specs.uid = '';
+        optionsIMDB.specs.email = '';
+        optionsIMDB.specs.login = 0;
+
+        createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
+        createLocalStorageData(
+          JSON.stringify(optionsIMDB.specs.email),
+          'email'
+        );
+        createLocalStorageData(
+          JSON.stringify(optionsIMDB.specs.login),
+          'login'
+        );
+
+        // Check if Log-In
+
+        const myLibraryPageEl = document.querySelector('.navlist-library');
+        const loginEl = document.querySelector('.navlist-login');
+        const signupEl = document.querySelector('.navlist-signup');
+        const logoutEL = document.querySelector('.navlist-logout');
+        const emailEL = document.querySelector('.navlist-email');
+
+        if (readLocalStorageData('login') == null) {
+          optionsIMDB.specs.login = 0;
+        } else {
+          optionsIMDB.specs.login = readLocalStorageData('login');
+        }
+
+        let login = optionsIMDB.specs.login;
+        console.log(`Login: ${login}`);
+        if (login == 0) {
+          myLibraryPageEl.classList.add('is-hidden');
+          loginEl.classList.remove('is-hidden');
+          signupEl.classList.remove('is-hidden');
+          logoutEL.classList.add('is-hidden');
+          emailEL.classList.add('is-hidden');
+        } else {
+          myLibraryPageEl.classList.remove('is-hidden');
+          loginEl.classList.add('is-hidden');
+          signupEl.classList.add('is-hidden');
+          logoutEL.classList.remove('is-hidden');
+          emailEL.classList.remove('is-hidden');
+        }
+      },
+      () => {},
+      {}
+    );
   }
 }
 

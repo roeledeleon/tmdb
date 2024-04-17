@@ -12,5 +12,7 @@ export const optionsIMDB = {
     query: '',
     totalPages: 1,
     login: 0,
+    email: '',
+    uid: '',
   },
 };

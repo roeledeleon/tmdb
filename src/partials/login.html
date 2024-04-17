@@ -1,5 +1,9 @@
 <div id="id01" class="modal_login">
-  <form class="modal-content animate" action="/action_page.php" method="post">
+  <form
+    class="modal-content modal-content-login animate"
+    action="/action_page.php"
+    method="post"
+  >
     <div class="imgcontainer">
       <span
         onclick="document.getElementById('id01').style.display='none'"
@@ -7,7 +11,7 @@
         title="Close Modal"
         >&times;</span
       >
-      <img src="./images/avatar.jpg" alt="Avatar" class="avatar" />
+      <!-- <img src="./images/avatar.jpg" alt="Avatar" class="avatar" /> -->
     </div>
 
     <div class="container">
@@ -31,7 +35,7 @@
         required
       />
 
-      <button class="button_login" type="submit">Login</button>
+      <button class="button_login loginbtn" type="submit">Login</button>
       <label>
         <input type="checkbox" checked="checked" name="remember" /> Remember me
       </label>

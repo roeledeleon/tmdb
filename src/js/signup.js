@@ -29,10 +29,6 @@ function onRegister() {
   let email = document.getElementById('signup_email').value;
   let password = document.getElementById('signup_pword').value;
 
-  console.log(fullname);
-  console.log(email);
-  console.log(password);
-
   // Validate input fields
   if (validate_email(email) == false || validate_password(password) == false) {
     alert('Email or password not OK');

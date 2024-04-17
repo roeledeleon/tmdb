@@ -12,6 +12,8 @@ import {
 } from './modal_add-film-card';
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
+import { readLocalStorageData } from './api/local-storage-API';
+
 // ----- DECLARATIONS
 
 let login = optionsIMDB.specs.login;
@@ -72,7 +74,15 @@ async function onGallerySearchBoxClick(event) {
 
   modalButtonsRefs.closeBtn.addEventListener('click', onCloseModal);
 
-  if (login === 0) {
+  if (readLocalStorageData('login') == null) {
+    optionsIMDB.specs.login = 0;
+  } else {
+    optionsIMDB.specs.login = readLocalStorageData('login');
+  }
+
+  let login = optionsIMDB.specs.login;
+
+  if (login == 0) {
     modalButtonsRefs.btnSelection.classList.add('is-hidden');
   } else {
     modalButtonsRefs.btnSelection.classList.remove('is-hidden');
@@ -146,7 +156,15 @@ async function onGalleryFetchBoxClick(event) {
 
   modalButtonsRefs.closeBtn.addEventListener('click', onCloseModal);
 
-  if (login === 0) {
+  if (readLocalStorageData('login') == null) {
+    optionsIMDB.specs.login = 0;
+  } else {
+    optionsIMDB.specs.login = readLocalStorageData('login');
+  }
+
+  let login = optionsIMDB.specs.login;
+
+  if (login == 0) {
     modalButtonsRefs.btnSelection.classList.add('is-hidden');
   } else {
     modalButtonsRefs.btnSelection.classList.remove('is-hidden');
