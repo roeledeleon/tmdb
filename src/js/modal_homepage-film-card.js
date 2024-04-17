@@ -1,5 +1,6 @@
 // ----- IMPORTS
 
+import { optionsIMDB } from './api/imdb-api';
 import { fetchFilmDetailsById } from './modal_fetch-film-card-details';
 import noPosterURL from '../images/desktop/film-image-desktop.jpg';
 import closeBtnIcon from '../images/icon/symbol-defs.svg';
@@ -12,6 +13,8 @@ import {
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 
 // ----- DECLARATIONS
+
+let login = optionsIMDB.specs.login;
 
 let filmDetails = {};
 const cache = [];
@@ -59,15 +62,24 @@ async function onGallerySearchBoxClick(event) {
   renderFilmModal(filmDetails);
 
   const modalButtonsRefs = {
+    btnSelection: document.querySelector('.film-button'),
+
     closeBtn: document.querySelector('[button-modal-close]'),
     addQueueBtn: document.querySelector('[button-add-queue]'),
     addWatchBtn: document.querySelector('[button-add-watch]'),
     unselectBtn: document.querySelector('[button-unselect]'),
   };
 
+  modalButtonsRefs.closeBtn.addEventListener('click', onCloseModal);
+
+  if (login === 0) {
+    modalButtonsRefs.btnSelection.classList.add('is-hidden');
+  } else {
+    modalButtonsRefs.btnSelection.classList.remove('is-hidden');
+  }
+
   enableBtn(modalButtonsRefs.unselectBtn);
 
-  modalButtonsRefs.closeBtn.addEventListener('click', onCloseModal);
   modalButtonsRefs.addQueueBtn.addEventListener('click', onAddQueueBtn);
   modalButtonsRefs.addWatchBtn.addEventListener('click', onAddWatchBtn);
   modalButtonsRefs.unselectBtn.addEventListener('click', onUnselectBtn);
@@ -124,15 +136,23 @@ async function onGalleryFetchBoxClick(event) {
   renderFilmModal(filmDetails);
 
   const modalButtonsRefs = {
+    btnSelection: document.querySelector('.film-button'),
+
     closeBtn: document.querySelector('[button-modal-close]'),
     addQueueBtn: document.querySelector('[button-add-queue]'),
     addWatchBtn: document.querySelector('[button-add-watch]'),
     unselectBtn: document.querySelector('[button-unselect]'),
   };
 
-  enableBtn(modalButtonsRefs.unselectBtn);
-
   modalButtonsRefs.closeBtn.addEventListener('click', onCloseModal);
+
+  if (login === 0) {
+    modalButtonsRefs.btnSelection.classList.add('is-hidden');
+  } else {
+    modalButtonsRefs.btnSelection.classList.remove('is-hidden');
+  }
+
+  enableBtn(modalButtonsRefs.unselectBtn);
   modalButtonsRefs.addQueueBtn.addEventListener('click', onAddQueueBtn);
   modalButtonsRefs.addWatchBtn.addEventListener('click', onAddWatchBtn);
   modalButtonsRefs.unselectBtn.addEventListener('click', onUnselectBtn);
@@ -363,7 +383,7 @@ function createFilmModalMarkup(data) {
         </div>
       </div>
 
-      <ul class="film-button">
+      <ul class="film-button is-hidden">
         <li class="film-button_item" id="button-add-watch">
           <button
             class="film-button_primary"

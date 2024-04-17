@@ -13,11 +13,24 @@ import { Notify } from 'notiflix/build/notiflix-aio.js';
 import { findGenresOfMovie } from './find-genre';
 import img from '../images/desktop/film-image-desktop.jpg';
 
+import { initializeApp } from 'firebase/app';
+import { getAnalytics } from 'firebase/analytics';
+import firebase from 'firebase/compat/app';
+
+// ----- DECLARATIONS | Firebase
+
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
+
+// const auth = firebase.auth();
+// const database = firebase.database();
+
 // ----- DECLARATIONS | Fetch
 
 let BASE_URL = optionsIMDB.specs.baseURL;
 let API_KEY = optionsIMDB.specs.key;
 let page = 1;
+let login = optionsIMDB.specs.login;
 
 // ----- DECLARATIONS | Search
 
@@ -36,6 +49,8 @@ const libraryFetchEl = document.querySelector('.gallery_fetch-box');
 const librarySearchEl = document.querySelector('.gallery_search-box');
 const searchInputEl = document.querySelector('input[name="searchQuery"]');
 const searchFormEl = document.getElementById('search-form');
+
+const myLibraryPageEl = document.querySelector('.navlist-library');
 
 const optionError = {
   width: '390px',
@@ -56,6 +71,12 @@ async function fetchMovies() {
   'use strict';
   refs.galleryFetchContainer.classList.remove('is-hidden');
   refs.paginationItemsFetchContainer.classList.remove('is-hidden');
+
+  if (login === 0) {
+    myLibraryPageEl.classList.add('is-hidden');
+  } else {
+    myLibraryPageEl.classList.remove('is-hidden');
+  }
 
   try {
     loadLoading();
