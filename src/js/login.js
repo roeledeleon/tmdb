@@ -14,7 +14,7 @@ import { getDatabase, ref, update, set } from 'firebase/database';
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-loginBtnEl = document.querySelector('.loginbtn');
+const loginBtnEl = document.querySelector('.loginbtn');
 
 const form = document.querySelector('.modal-content-login');
 
