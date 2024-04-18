@@ -78,9 +78,6 @@ function onRegister() {
         last_login: Date.now(),
       };
 
-      const db = getDatabase();
-      set(ref(db, 'users/' + user.uid), user_data);
-
       optionsIMDB.specs.uid = user.uid;
       optionsIMDB.specs.email = user.email;
       optionsIMDB.specs.password = password;
@@ -89,6 +86,13 @@ function onRegister() {
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.email), 'email');
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.login), 'login');
+      createLocalStorageData(
+        JSON.stringify(optionsIMDB.specs.password),
+        'password'
+      );
+
+      const db = getDatabase();
+      set(ref(db, 'users/' + readLocalStorageData('uid')), user_data);
 
       const myLibraryPageEl = document.querySelector('.navlist-library');
       const loginEl = document.querySelector('.navlist-login');

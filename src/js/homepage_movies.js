@@ -140,6 +140,7 @@ async function fetchMovies() {
       () => {
         optionsIMDB.specs.uid = '';
         optionsIMDB.specs.email = '';
+        optionsIMDB.specs.password = '';
         optionsIMDB.specs.login = 0;
 
         createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
@@ -148,10 +149,20 @@ async function fetchMovies() {
           'email'
         );
         createLocalStorageData(
+          JSON.stringify(optionsIMDB.specs.email),
+          'password'
+        );
+
+        createLocalStorageData(
           JSON.stringify(optionsIMDB.specs.login),
           'login'
         );
 
+        createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'queue');
+        createLocalStorageData(
+          JSON.stringify(optionsIMDB.specs.uid),
+          'watched'
+        );
         // Check if Log-In
 
         const myLibraryPageEl = document.querySelector('.navlist-library');

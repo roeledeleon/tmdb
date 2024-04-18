@@ -7,7 +7,7 @@ import { createLocalStorageData } from './api/local-storage-API';
 import { firebaseConfig } from './api/firebase-api';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getDatabase, ref, update, set } from 'firebase/database';
+import { getDatabase, ref, update, get } from 'firebase/database';
 
 import { Notify } from 'notiflix';
 
@@ -60,6 +60,11 @@ function onLogin() {
       const db = getDatabase();
       update(ref(db, 'users/' + user.uid), user_data);
 
+      // let watchFilms = ref(db, 'posts/' + postId + '/watchFilmList');
+      // console.log(watchFilms)
+      // let queueFilms = ref(db, 'posts/' + postId + '/queueFilmList');
+      // console.log(watchFilms)
+
       optionsIMDB.specs.uid = user.uid;
       optionsIMDB.specs.email = user.email;
       optionsIMDB.specs.password = password;
@@ -71,6 +76,10 @@ function onLogin() {
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.email), 'email');
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.login), 'login');
+      createLocalStorageData(
+        JSON.stringify(optionsIMDB.specs.password),
+        'password'
+      );
 
       const myLibraryPageEl = document.querySelector('.navlist-library');
       const loginEl = document.querySelector('.navlist-login');
@@ -93,6 +102,7 @@ function onLogin() {
         emailEL.classList.remove('is-hidden');
       }
 
+      watchedFilms;
       var modal = document.getElementById('id01');
       modal.style.display = 'none';
     })
