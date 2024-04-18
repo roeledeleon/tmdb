@@ -38,19 +38,28 @@ function onRegister() {
   let fullname = document.getElementById('signup_fname').value;
   let email = document.getElementById('signup_email').value;
   let password = document.getElementById('signup_pword').value;
+  let password_repeat = document.getElementById('signup_pword-repeat').value;
 
-  // Validate input fields
-  if (validate_email(email) == false || validate_password(password) == false) {
-    alert('Email or password not OK');
+  // Validate password inputs
+
+  if (password != password_repeat) {
+    Notify.warning('Password did no match, please enter correct password(s)');
     return;
     // Don't continue to run code
   }
 
-  if (validate_field(fullname) == false) {
-    alert('Input Field not OK');
-    return;
-    // Don't continue to run code
-  }
+  // // Validate input fields
+  // if (validate_email(email) == false || validate_password(password) == false) {
+  //   alert('Email or password not OK');
+  //   return;
+  //   // Don't continue to run code
+  // }
+
+  // if (validate_field(fullname) == false) {
+  //   alert('Input Field not OK');
+  //   return;
+  //   // Don't continue to run code
+  // }
 
   // Move on with Authentication
   const auth = getAuth(app);
@@ -74,6 +83,7 @@ function onRegister() {
 
       optionsIMDB.specs.uid = user.uid;
       optionsIMDB.specs.email = user.email;
+      optionsIMDB.specs.password = password;
       optionsIMDB.specs.login = 1;
 
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
@@ -114,43 +124,51 @@ function onRegister() {
       const errorCode = error.code;
       const errorMessage = error.message;
       // ..
-      Notify.failure(
-        'User Creation Not Successful! Please check your network connection!'
-      );
+
+      console.log(errorCode);
+      console.log(errorMessage);
+
+      if (errorCode == 'auth/email-already-in-use') {
+        Notify.failure('Firebase: Error (email/password already in use).!');
+      } else {
+        Notify.failure(
+          'User Creation Not Successful! Please check your network connection!'
+        );
+      }
 
       var modal = document.getElementById('id02');
       modal.style.display = 'none';
     });
 }
 
-function validate_email(email) {
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-    return true;
-  }
-  alert('You have entered an invalid email address!');
-  return false;
-}
+// function validate_email(email) {
+//   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+//     return true;
+//   }
+//   alert('You have entered an invalid email address!');
+//   return false;
+// }
 
-function validate_password(password) {
-  //Firebase only accepts lengths greater than 6
-  if (password < 6) {
-    return false;
-  } else {
-    return true;
-  }
-}
+// function validate_password(password) {
+//   //Firebase only accepts lengths greater than 6
+//   if (password < 6) {
+//     return false;
+//   } else {
+//     return true;
+//   }
+// }
 
-function validate_field(field) {
-  if (field == null) {
-    return false;
-  }
+// function validate_field(field) {
+//   if (field == null) {
+//     return false;
+//   }
 
-  if (field.length <= 0) {
-    return false;
-  } else {
-    return true;
-  }
-}
+//   if (field.length <= 0) {
+//     return false;
+//   } else {
+//     return true;
+//   }
+// }
 
 // Get the modal
 var modal = document.getElementById('id02');

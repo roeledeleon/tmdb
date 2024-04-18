@@ -62,7 +62,11 @@ function onLogin() {
 
       optionsIMDB.specs.uid = user.uid;
       optionsIMDB.specs.email = user.email;
+      optionsIMDB.specs.password = password;
       optionsIMDB.specs.login = 1;
+
+      console.log(optionsIMDB.specs.email);
+      console.log(optionsIMDB.specs.password);
 
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.email), 'email');
