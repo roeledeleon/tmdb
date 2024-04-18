@@ -9,6 +9,8 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { getDatabase, ref, update, set } from 'firebase/database';
 
+import { Notify } from 'notiflix';
+
 // ----- DECLARATIONS | Firebase
 
 const app = initializeApp(firebaseConfig);
@@ -48,7 +50,9 @@ function onLogin() {
       // Signed in
       const user = userCredential.user;
 
-      alert('User Log In');
+      Notify.success('Log-In Successful!');
+
+      console.log(user);
 
       //Add this user to Firebase Database
       var user_data = {
@@ -93,6 +97,16 @@ function onLogin() {
     .catch(error => {
       const errorCode = error.code;
       const errorMessage = error.message;
+
+      console.log(errorCode);
+      console.log(errorMessage);
+
+      Notify.failure(
+        'Log-In Not Successful! Please input correct email/password!'
+      );
+
+      var modal = document.getElementById('id01');
+      modal.style.display = 'none';
     });
 }
 
