@@ -52,8 +52,6 @@ function onLogin() {
 
       Notify.success('Log-In Successful!');
 
-      console.log(user);
-
       //Add this user to Firebase Database
       var user_data = {
         last_login: Date.now(),
@@ -97,9 +95,6 @@ function onLogin() {
     .catch(error => {
       const errorCode = error.code;
       const errorMessage = error.message;
-
-      console.log(errorCode);
-      console.log(errorMessage);
 
       Notify.failure(
         'Log-In Not Successful! Please input correct email/password!'

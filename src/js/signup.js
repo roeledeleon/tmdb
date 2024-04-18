@@ -5,11 +5,18 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getDatabase, ref, set } from 'firebase/database';
 
+import { optionsIMDB } from './api/imdb-api';
+
+import {
+  createLocalStorageData,
+  readLocalStorageData,
+} from './api/local-storage-API';
+
+import { Notify } from 'notiflix';
+
 // ----- DECLARATIONS | Firebase
 
 const app = initializeApp(firebaseConfig);
-
-const signupBtnEl = document.querySelector('.signupbtn');
 
 const form = document.querySelector('.modal-content-signup');
 
@@ -65,12 +72,54 @@ function onRegister() {
       const db = getDatabase();
       set(ref(db, 'users/' + user.uid), user_data);
 
-      alert('User Created');
+      optionsIMDB.specs.uid = user.uid;
+      optionsIMDB.specs.email = user.email;
+      optionsIMDB.specs.login = 1;
+
+      createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
+      createLocalStorageData(JSON.stringify(optionsIMDB.specs.email), 'email');
+      createLocalStorageData(JSON.stringify(optionsIMDB.specs.login), 'login');
+
+      const myLibraryPageEl = document.querySelector('.navlist-library');
+      const loginEl = document.querySelector('.navlist-login');
+      const signupEl = document.querySelector('.navlist-signup');
+      const logoutEL = document.querySelector('.navlist-logout');
+
+      const emailBoxEl = document.querySelector('.navlist-email');
+      const emailEl = document.querySelector('.navlist-email-btn');
+
+      let login = optionsIMDB.specs.login;
+      if (login === 0) {
+        myLibraryPageEl.classList.add('is-hidden');
+        loginEl.classList.remove('is-hidden');
+        signupEl.classList.remove('is-hidden');
+        logoutEL.classList.add('is-hidden');
+        emailBoxEl.classList.add('is-hidden');
+      } else {
+        myLibraryPageEl.classList.remove('is-hidden');
+        loginEl.classList.add('is-hidden');
+        signupEl.classList.add('is-hidden');
+        logoutEL.classList.remove('is-hidden');
+        emailBoxEl.classList.remove('is-hidden');
+
+        emailEl.innerHTML = readLocalStorageData('email');
+      }
+
+      Notify.success('User Created');
+
+      var modal = document.getElementById('id02');
+      modal.style.display = 'none';
     })
     .catch(error => {
       const errorCode = error.code;
       const errorMessage = error.message;
       // ..
+      Notify.failure(
+        'User Creation Not Successful! Please check your network connection!'
+      );
+
+      var modal = document.getElementById('id02');
+      modal.style.display = 'none';
     });
 }
 
