@@ -2,12 +2,23 @@
 import { optionsIMDB } from './api/imdb-api';
 import { fetchMovies } from './homepage_movies';
 
-import { createLocalStorageData } from './api/local-storage-API';
+import {
+  createLocalStorageData,
+  readLocalStorageData,
+} from './api/local-storage-API';
 
 import { firebaseConfig } from './api/firebase-api';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getDatabase, ref, update, get } from 'firebase/database';
+import {
+  getDatabase,
+  ref,
+  child,
+  get,
+  update,
+  onValue,
+  snapshot,
+} from 'firebase/database';
 
 import { Notify } from 'notiflix';
 
@@ -52,26 +63,10 @@ function onLogin() {
 
       Notify.success('Log-In Successful!');
 
-      //Add this user to Firebase Database
-      var user_data = {
-        last_login: Date.now(),
-      };
-
-      const db = getDatabase();
-      update(ref(db, 'users/' + user.uid), user_data);
-
-      // let watchFilms = ref(db, 'posts/' + postId + '/watchFilmList');
-      // console.log(watchFilms)
-      // let queueFilms = ref(db, 'posts/' + postId + '/queueFilmList');
-      // console.log(watchFilms)
-
       optionsIMDB.specs.uid = user.uid;
       optionsIMDB.specs.email = user.email;
       optionsIMDB.specs.password = password;
       optionsIMDB.specs.login = 1;
-
-      console.log(optionsIMDB.specs.email);
-      console.log(optionsIMDB.specs.password);
 
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.email), 'email');
@@ -80,6 +75,41 @@ function onLogin() {
         JSON.stringify(optionsIMDB.specs.password),
         'password'
       );
+
+      //Add this user to Firebase Database
+      var user_data = {
+        last_login: Date.now(),
+      };
+
+      const db = getDatabase();
+      update(ref(db, 'users/' + readLocalStorageData('uid')), user_data);
+
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `users/${readLocalStorageData('uid')}`))
+        .then(snapshot => {
+          if (snapshot.exists()) {
+            console.log(snapshot.val());
+            let realtimeDB = {
+              fullname: snapshot.val().fullname,
+              email: snapshot.val().email,
+              last_login: snapshot.val().last_login,
+            };
+
+            console.log(realtimeDB);
+            console.log(snapshot);
+            //console.log(watchedFilmList);
+            //console.log(queueFilmList);
+          } else {
+            console.log('No data available');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+      //console.log(snapshot.val().queueFilms);
+
+      alert('Done');
 
       const myLibraryPageEl = document.querySelector('.navlist-library');
       const loginEl = document.querySelector('.navlist-login');
@@ -118,6 +148,8 @@ function onLogin() {
       modal.style.display = 'none';
     });
 }
+
+function extractRealtimeDatase(userId) {}
 
 function validate_email(email) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {

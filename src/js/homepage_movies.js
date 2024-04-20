@@ -158,11 +158,9 @@ async function fetchMovies() {
           'login'
         );
 
-        createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'queue');
-        createLocalStorageData(
-          JSON.stringify(optionsIMDB.specs.uid),
-          'watched'
-        );
+        localStorage.removeItem('queue');
+        localStorage.removeItem('watched');
+
         // Check if Log-In
 
         const myLibraryPageEl = document.querySelector('.navlist-library');
