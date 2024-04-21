@@ -16,7 +16,7 @@ import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
 
 // ----- DECLARATIONS
 
-const MOVIES_PER_PAGE = 20;
+const MOVIES_PER_PAGE = 21;
 
 const paginationMyLibraryContainer = document.querySelector(
   '.pagination-mylibrary_container'
