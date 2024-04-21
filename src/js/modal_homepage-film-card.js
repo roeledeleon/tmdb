@@ -16,8 +16,6 @@ import { readLocalStorageData } from './api/local-storage-API';
 
 // ----- DECLARATIONS
 
-let login = optionsIMDB.specs.login;
-
 let filmDetails = {};
 const cache = [];
 

@@ -5,11 +5,18 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getDatabase, ref, set } from 'firebase/database';
 
+import { optionsIMDB } from './api/imdb-api';
+
+import {
+  createLocalStorageData,
+  readLocalStorageData,
+} from './api/local-storage-API';
+
+import { Notify } from 'notiflix';
+
 // ----- DECLARATIONS | Firebase
 
 const app = initializeApp(firebaseConfig);
-
-const signupBtnEl = document.querySelector('.signupbtn');
 
 const form = document.querySelector('.modal-content-signup');
 
@@ -31,19 +38,28 @@ function onRegister() {
   let fullname = document.getElementById('signup_fname').value;
   let email = document.getElementById('signup_email').value;
   let password = document.getElementById('signup_pword').value;
+  let password_repeat = document.getElementById('signup_pword-repeat').value;
 
-  // Validate input fields
-  if (validate_email(email) == false || validate_password(password) == false) {
-    alert('Email or password not OK');
+  // Validate password inputs
+
+  if (password != password_repeat) {
+    Notify.warning('Password did no match, please enter correct password(s)');
     return;
     // Don't continue to run code
   }
 
-  if (validate_field(fullname) == false) {
-    alert('Input Field not OK');
-    return;
-    // Don't continue to run code
-  }
+  // // Validate input fields
+  // if (validate_email(email) == false || validate_password(password) == false) {
+  //   alert('Email or password not OK');
+  //   return;
+  //   // Don't continue to run code
+  // }
+
+  // if (validate_field(fullname) == false) {
+  //   alert('Input Field not OK');
+  //   return;
+  //   // Don't continue to run code
+  // }
 
   // Move on with Authentication
   const auth = getAuth(app);
@@ -62,46 +78,101 @@ function onRegister() {
         last_login: Date.now(),
       };
 
-      const db = getDatabase();
-      set(ref(db, 'users/' + user.uid), user_data);
+      optionsIMDB.specs.uid = user.uid;
+      optionsIMDB.specs.email = user.email;
+      optionsIMDB.specs.password = password;
+      optionsIMDB.specs.login = 1;
 
-      alert('User Created');
+      createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
+      createLocalStorageData(JSON.stringify(optionsIMDB.specs.email), 'email');
+      createLocalStorageData(JSON.stringify(optionsIMDB.specs.login), 'login');
+      createLocalStorageData(
+        JSON.stringify(optionsIMDB.specs.password),
+        'password'
+      );
+
+      const db = getDatabase();
+      set(ref(db, 'users/' + readLocalStorageData('uid')), user_data);
+
+      const myLibraryPageEl = document.querySelector('.navlist-library');
+      const loginEl = document.querySelector('.navlist-login');
+      const signupEl = document.querySelector('.navlist-signup');
+      const logoutEL = document.querySelector('.navlist-logout');
+
+      const emailBoxEl = document.querySelector('.navlist-email');
+      const emailEl = document.querySelector('.navlist-email-btn');
+
+      let login = optionsIMDB.specs.login;
+      if (login === 0) {
+        myLibraryPageEl.classList.add('is-hidden');
+        loginEl.classList.remove('is-hidden');
+        signupEl.classList.remove('is-hidden');
+        logoutEL.classList.add('is-hidden');
+        emailBoxEl.classList.add('is-hidden');
+      } else {
+        myLibraryPageEl.classList.remove('is-hidden');
+        loginEl.classList.add('is-hidden');
+        signupEl.classList.add('is-hidden');
+        logoutEL.classList.remove('is-hidden');
+        emailBoxEl.classList.remove('is-hidden');
+
+        emailEl.innerHTML = readLocalStorageData('email');
+      }
+
+      Notify.success('User Created');
+
+      var modal = document.getElementById('id02');
+      modal.style.display = 'none';
     })
     .catch(error => {
       const errorCode = error.code;
       const errorMessage = error.message;
       // ..
+
+      console.log(errorCode);
+      console.log(errorMessage);
+
+      if (errorCode == 'auth/email-already-in-use') {
+        Notify.failure('Firebase: Error (email/password already in use).!');
+      } else {
+        Notify.failure(
+          'User Creation Not Successful! Please check your network connection!'
+        );
+      }
+
+      var modal = document.getElementById('id02');
+      modal.style.display = 'none';
     });
 }
 
-function validate_email(email) {
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-    return true;
-  }
-  alert('You have entered an invalid email address!');
-  return false;
-}
+// function validate_email(email) {
+//   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+//     return true;
+//   }
+//   alert('You have entered an invalid email address!');
+//   return false;
+// }
 
-function validate_password(password) {
-  //Firebase only accepts lengths greater than 6
-  if (password < 6) {
-    return false;
-  } else {
-    return true;
-  }
-}
+// function validate_password(password) {
+//   //Firebase only accepts lengths greater than 6
+//   if (password < 6) {
+//     return false;
+//   } else {
+//     return true;
+//   }
+// }
 
-function validate_field(field) {
-  if (field == null) {
-    return false;
-  }
+// function validate_field(field) {
+//   if (field == null) {
+//     return false;
+//   }
 
-  if (field.length <= 0) {
-    return false;
-  } else {
-    return true;
-  }
-}
+//   if (field.length <= 0) {
+//     return false;
+//   } else {
+//     return true;
+//   }
+// }
 
 // Get the modal
 var modal = document.getElementById('id02');

@@ -1,13 +1,25 @@
 // ----- IMPORTS
 import { optionsIMDB } from './api/imdb-api';
-import { fetchMovies } from './homepage_movies';
 
-import { createLocalStorageData } from './api/local-storage-API';
+import {
+  createLocalStorageData,
+  readLocalStorageData,
+} from './api/local-storage-API';
 
 import { firebaseConfig } from './api/firebase-api';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getDatabase, ref, update, set } from 'firebase/database';
+import {
+  getDatabase,
+  ref,
+  child,
+  get,
+  update,
+  onValue,
+  snapshot,
+} from 'firebase/database';
+
+import { Notify } from 'notiflix';
 
 // ----- DECLARATIONS | Firebase
 
@@ -48,23 +60,67 @@ function onLogin() {
       // Signed in
       const user = userCredential.user;
 
-      alert('User Log In');
-
-      //Add this user to Firebase Database
-      var user_data = {
-        last_login: Date.now(),
-      };
-
-      const db = getDatabase();
-      update(ref(db, 'users/' + user.uid), user_data);
+      Notify.success('Log-In Successful!');
 
       optionsIMDB.specs.uid = user.uid;
       optionsIMDB.specs.email = user.email;
+      optionsIMDB.specs.password = password;
       optionsIMDB.specs.login = 1;
 
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.uid), 'uid');
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.email), 'email');
       createLocalStorageData(JSON.stringify(optionsIMDB.specs.login), 'login');
+      createLocalStorageData(
+        JSON.stringify(optionsIMDB.specs.password),
+        'password'
+      );
+
+      // update last_login data of Firebase Database
+      var user_data = {
+        last_login: Date.now(),
+      };
+      const db = getDatabase();
+      update(ref(db, 'users/' + readLocalStorageData('uid')), user_data);
+
+      // downloading realtime data from firebase
+      const dbRef = ref(getDatabase());
+      let watchFilmList = [];
+      let queueFilmList = [];
+      get(child(dbRef, `users/${readLocalStorageData('uid')}`))
+        .then(snapshot => {
+          if (snapshot.exists()) {
+            let realtimeDB = {
+              fullname: snapshot.val().fullname,
+              email: snapshot.val().email,
+              last_login: snapshot.val().last_login,
+              watchFilmList: snapshot.val().watchFilmList,
+              queueFilmList: snapshot.val().queueFilmList,
+            };
+
+            // Check if realtime data is undefined
+            if (typeof realtimeDB.watchFilmList == 'undefined') {
+              createLocalStorageData(JSON.stringify(watchFilmList), 'watched');
+            } else {
+              createLocalStorageData(
+                JSON.stringify(realtimeDB.watchFilmList),
+                'watched'
+              );
+            }
+            if (typeof realtimeDB.queueFilmList == 'undefined') {
+              createLocalStorageData(JSON.stringify(queueFilmList), 'queue');
+            } else {
+              createLocalStorageData(
+                JSON.stringify(realtimeDB.queueFilmList),
+                'queue'
+              );
+            }
+          } else {
+            // console.log('No data available');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
 
       const myLibraryPageEl = document.querySelector('.navlist-library');
       const loginEl = document.querySelector('.navlist-login');
@@ -87,12 +143,25 @@ function onLogin() {
         emailEL.classList.remove('is-hidden');
       }
 
+      watchedFilms;
       var modal = document.getElementById('id01');
       modal.style.display = 'none';
     })
     .catch(error => {
       const errorCode = error.code;
       const errorMessage = error.message;
+
+      console.log(errorCode);
+      console.log(error.message);
+
+      if (errorCode == 'auth/invalid-credential') {
+        Notify.failure(
+          'Log-In Not Successful! Please input correct email/password!'
+        );
+      }
+
+      var modal = document.getElementById('id01');
+      modal.style.display = 'none';
     });
 }
 

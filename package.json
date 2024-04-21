@@ -2,20 +2,20 @@
   "name": "tmdb-filmoteka",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://roeledeleon.github.io/tmdb",
+  "homepage": "https://roeledeleon.github.io/branch_fb-database",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /tmdb/"
+    "build": "parcel build src/*.html --public-url /branch_fb-database/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/roeledeleon/tmdb.git"
+    "url": "git+https://github.com/roeledeleon/branch_fb-database.git"
   },
   "keywords": [],
   "author": "Roel Edeleon <roel.edeleon@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/roeledeleon/tmdb/issues"
+    "url": "https://github.com/roeledeleon/branch_fb-database/issues"
   },
   "dependencies": {
     "aos": "^3.0.0-beta.6",

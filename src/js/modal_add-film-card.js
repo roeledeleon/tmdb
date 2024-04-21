@@ -1,8 +1,15 @@
 // ----- IMPORT
 
-import { optionsIMDB } from './api/imdb-api';
+import { readLocalStorageData } from './api/local-storage-API';
+
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from './api/firebase-api';
+
+import { getDatabase, ref, update, set } from 'firebase/database';
 
 // ----- DECLARATIONS
+
+const app = initializeApp(firebaseConfig);
 
 let queueFilms = [];
 let uniqQueueFilms = [];
@@ -32,7 +39,20 @@ export const dataSaveWatch = function (data) {
   uniqFilms = uniqBy(watchFilms, 'id');
 
   localStorage.setItem('watched', JSON.stringify(uniqFilms));
+
+  dataSaveDataToRealtimeDatabase();
 };
+
+// ----- FUNCTIONS | dataSaveDataToRealtimeDatabase
+
+function dataSaveDataToRealtimeDatabase() {
+  const db = getDatabase();
+  update(ref(db, 'users/' + readLocalStorageData('uid')), {
+    watchFilmList: JSON.parse(localStorage.watched),
+    queueFilmList: JSON.parse(localStorage.queue),
+    last_login: Date.now(),
+  });
+}
 
 // ----- FUNCTIONS | removeSaveWatch
 
@@ -61,6 +81,8 @@ export const removeSaveWatch = function (data) {
 
   uniqFilms.splice(dataIndex, 1);
   localStorage.setItem('watched', JSON.stringify(uniqFilms));
+
+  dataSaveDataToRealtimeDatabase();
 };
 
 // ----- FUNCTIONS | dataSaveQueue
@@ -87,6 +109,8 @@ export const dataSaveQueue = function (data) {
   uniqQueueFilms = uniqBy(queueFilms, 'id');
   localStorage.setItem('queue', JSON.stringify(uniqQueueFilms));
   //}
+
+  dataSaveDataToRealtimeDatabase();
 };
 
 // ----- FUNCTIONS | removeSaveQueue
@@ -120,7 +144,8 @@ export const removeSaveQueue = function (data) {
   uniqQueueFilms.splice(dataIndex, 1);
 
   localStorage.setItem('queue', JSON.stringify(uniqQueueFilms));
-  //}
+
+  dataSaveDataToRealtimeDatabase();
 };
 
 // ----- FUNCTIONS | uniqBy

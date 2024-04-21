@@ -13,6 +13,7 @@ export const optionsIMDB = {
     totalPages: 1,
     login: 0,
     email: '',
+    password: '',
     uid: '',
   },
 };
