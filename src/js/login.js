@@ -1,6 +1,5 @@
 // ----- IMPORTS
 import { optionsIMDB } from './api/imdb-api';
-import { fetchMovies } from './homepage_movies';
 
 import {
   createLocalStorageData,
@@ -76,40 +75,52 @@ function onLogin() {
         'password'
       );
 
-      //Add this user to Firebase Database
+      // update last_login data of Firebase Database
       var user_data = {
         last_login: Date.now(),
       };
-
       const db = getDatabase();
       update(ref(db, 'users/' + readLocalStorageData('uid')), user_data);
 
+      // downloading realtime data from firebase
       const dbRef = ref(getDatabase());
+      let watchFilmList = [];
+      let queueFilmList = [];
       get(child(dbRef, `users/${readLocalStorageData('uid')}`))
         .then(snapshot => {
           if (snapshot.exists()) {
-            console.log(snapshot.val());
             let realtimeDB = {
               fullname: snapshot.val().fullname,
               email: snapshot.val().email,
               last_login: snapshot.val().last_login,
+              watchFilmList: snapshot.val().watchFilmList,
+              queueFilmList: snapshot.val().queueFilmList,
             };
 
-            console.log(realtimeDB);
-            console.log(snapshot);
-            //console.log(watchedFilmList);
-            //console.log(queueFilmList);
+            // Check if realtime data is undefined
+            if (typeof realtimeDB.watchFilmList == 'undefined') {
+              createLocalStorageData(JSON.stringify(watchFilmList), 'watched');
+            } else {
+              createLocalStorageData(
+                JSON.stringify(realtimeDB.watchFilmList),
+                'watched'
+              );
+            }
+            if (typeof realtimeDB.queueFilmList == 'undefined') {
+              createLocalStorageData(JSON.stringify(queueFilmList), 'queue');
+            } else {
+              createLocalStorageData(
+                JSON.stringify(realtimeDB.queueFilmList),
+                'queue'
+              );
+            }
           } else {
-            console.log('No data available');
+            // console.log('No data available');
           }
         })
         .catch(error => {
           console.error(error);
         });
-
-      //console.log(snapshot.val().queueFilms);
-
-      alert('Done');
 
       const myLibraryPageEl = document.querySelector('.navlist-library');
       const loginEl = document.querySelector('.navlist-login');
@@ -140,16 +151,19 @@ function onLogin() {
       const errorCode = error.code;
       const errorMessage = error.message;
 
-      Notify.failure(
-        'Log-In Not Successful! Please input correct email/password!'
-      );
+      console.log(errorCode);
+      console.log(error.message);
+
+      if (errorCode == 'auth/invalid-credential') {
+        Notify.failure(
+          'Log-In Not Successful! Please input correct email/password!'
+        );
+      }
 
       var modal = document.getElementById('id01');
       modal.style.display = 'none';
     });
 }
-
-function extractRealtimeDatase(userId) {}
 
 function validate_email(email) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
